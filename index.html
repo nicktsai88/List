@@ -1,278 +1,331 @@
-import React, { useState } from 'react';
-import { BookOpen, Globe, Clock, Feather, Pencil, Smile, Map, Landmark, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快樂學習目錄</title>
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 React 和 ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- 引入 Babel (讓瀏覽器可以讀懂 React 語法) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-// Google Fonts 注入 (ZCOOL KuaiLe 用於標題, Noto Sans TC 用於內文)
-const fontStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;500;700&display=swap');
-  
-  .font-hand {
-    font-family: 'ZCOOL KuaiLe', cursive;
-  }
-  .font-body {
-    font-family: 'Noto Sans TC', sans-serif;
-  }
-  .paper-texture {
-    background-color: #fffdf5;
-    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  .tape {
-    background-color: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    backdrop-filter: blur(2px);
-    border-left: 1px dashed rgba(0,0,0,0.1);
-    border-right: 1px dashed rgba(0,0,0,0.1);
-  }
-`;
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 
-// 資料結構：根據您的圖片與描述建立
-const subjectsData = [
-  {
-    id: 'chinese',
-    title: '國文',
-    color: 'bg-red-100',
-    borderColor: 'border-red-300',
-    icon: <FeatherIcon />,
-    rotate: '-rotate-1',
-    categories: [
-      {
-        name: '課文題庫練習',
-        items: [
-          { title: 'L7 張釋之執法', link: 'https://nicktsai88.github.io/Chinese3-L7/' },
-          { title: 'L8 尋找失落的水源', link: '#' },
-          { title: 'L9 一棵開花的樹', link: '#' },
-          { title: 'L10 畫的哀傷', link: '#' },
-          { title: '選文三 安藤忠雄', link: '#' },
-        ]
-      },
-      {
-        name: '成語大師',
-        items: [
-          { title: '第一回', link: 'https://nicktsai88.github.io/ChineseIdiom1/' },
-          { title: '第二回', link: '#' },
-          { title: '第三回', link: '#' },
-          { title: '第四回', link: '#' },
-          { title: '第五回', link: '#' },
-        ]
-      },
-      {
-        name: '古文天地',
-        subSections: [
-          { label: '吳敏男', items: ['第一篇', '第二篇', '第三篇'] },
-          { label: '文言文推與敲', items: ['第一篇', '第二篇', '第三篇'] },
-          { label: '考卷自修講義', items: ['第一篇', '第二篇', '第三篇'] },
-        ]
-      },
-      {
-        name: '字音字形練習',
-        items: [] // 暫無資料
-      }
-    ]
-  },
-  {
-    id: 'english',
-    title: '英文',
-    color: 'bg-blue-100',
-    borderColor: 'border-blue-300',
-    icon: <GlobeIcon />,
-    rotate: 'rotate-1',
-    simpleList: [
-      { title: 'L5 How Long Will We Stay in Bangkok?', link: '#' },
-      { title: "L6 How Do We Get to Joe's House?", link: '#' },
-    ]
-  },
-  {
-    id: 'history',
-    title: '歷史',
-    color: 'bg-amber-100',
-    borderColor: 'border-amber-300',
-    icon: <HistoryIcon />,
-    rotate: '-rotate-2',
-    simpleList: [
-      { title: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/HistoryQuizApp/' },
-      { title: 'L6 晚清的社會文化變遷', link: '#' },
-    ]
-  },
-  {
-    id: 'geography',
-    title: '地理',
-    color: 'bg-green-100',
-    borderColor: 'border-green-300',
-    icon: <MapIcon />,
-    rotate: 'rotate-2',
-    simpleList: [
-      { title: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/MyQuizApp/' },
-      { title: 'L6 東北亞的經濟發展', link: '#' },
-    ]
-  },
-  {
-    id: 'civics',
-    title: '公民',
-    color: 'bg-purple-100',
-    borderColor: 'border-purple-300',
-    icon: <LandmarkIcon />,
-    rotate: '-rotate-1',
-    simpleList: [
-      { title: 'L5 我國的地方政府', link: '#' },
-      { title: 'L6 民主社會的政治參與及投票', link: '#' },
-    ]
-  },
-];
+    <style>
+        .font-hand {
+            font-family: 'ZCOOL KuaiLe', cursive;
+        }
+        .font-body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .paper-texture {
+            background-color: #fffdf5;
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .tape {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            backdrop-filter: blur(2px);
+            border-left: 1px dashed rgba(0,0,0,0.1);
+            border-right: 1px dashed rgba(0,0,0,0.1);
+        }
+        /* 自定義捲軸 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="paper-texture font-body">
+    <div id="root"></div>
 
-// 自定義 Icon 組件 (為了更換圖示方便)
-function FeatherIcon() { return <Feather className="w-6 h-6" />; } 
-function GlobeIcon() { return <Globe className="w-6 h-6" />; }
-function HistoryIcon() { return <Clock className="w-6 h-6" />; } 
-function MapIcon() { return <Map className="w-6 h-6" />; }
-function LandmarkIcon() { return <Landmark className="w-6 h-6" />; }
+    <script type="text/babel">
+        const { useState } = React;
 
-export default function App() {
-  return (
-    <div className="min-h-screen paper-texture font-body pb-20 overflow-x-hidden">
-      <style>{fontStyles}</style>
+        // --- SVG Icons (手動定義以避免依賴問題) ---
+        const Icons = {
+            Feather: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+            ),
+            Globe: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            ),
+            Clock: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            ),
+            Map: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+            ),
+            Landmark: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7 12 2"></polygon></svg>
+            ),
+            Smile: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400/50 w-8 h-8"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+            ),
+            Pencil: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 w-8 h-8 text-blue-500 animate-bounce"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+            ),
+            ExternalLink: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline w-3 h-3 ml-1 mb-1 opacity-50"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            )
+        };
 
-      {/* Header */}
-      <header className="pt-10 pb-6 text-center relative">
-        <div className="inline-block relative z-10 transform -rotate-2">
-          <div className="bg-yellow-200 absolute -inset-2 transform rotate-1 rounded-lg shadow-md opacity-80"></div>
-          <h1 className="relative font-hand text-4xl md:text-6xl text-gray-800 px-6 py-2 border-4 border-dashed border-gray-600 rounded-lg bg-white">
-            <span className="text-red-500">快樂</span>學習目錄
-            <Pencil className="inline-block ml-3 w-8 h-8 text-blue-500 animate-bounce" />
-          </h1>
-        </div>
-        <p className="mt-4 text-gray-600 font-hand text-xl">點擊下方卡片開始學習吧！</p>
-      </header>
+        // --- 資料結構 ---
+        const subjectsData = [
+          {
+            id: 'chinese',
+            title: '國文',
+            color: 'bg-red-100',
+            borderColor: 'border-red-300',
+            icon: <Icons.Feather />,
+            rotate: '-rotate-1',
+            categories: [
+              {
+                name: '課文題庫練習',
+                items: [
+                  { title: 'L7 張釋之執法', link: 'https://nicktsai88.github.io/Chinese3-L7/' },
+                  { title: 'L8 尋找失落的水源', link: '#' },
+                  { title: 'L9 一棵開花的樹', link: '#' },
+                  { title: 'L10 畫的哀傷', link: '#' },
+                  { title: '選文三 安藤忠雄', link: '#' },
+                ]
+              },
+              {
+                name: '成語大師',
+                items: [
+                  { title: '第一回', link: 'https://nicktsai88.github.io/ChineseIdiom1/' },
+                  { title: '第二回', link: '#' },
+                  { title: '第三回', link: '#' },
+                  { title: '第四回', link: '#' },
+                  { title: '第五回', link: '#' },
+                ]
+              },
+              {
+                name: '古文天地',
+                subSections: [
+                  { label: '吳敏男', items: ['第一篇', '第二篇', '第三篇'] },
+                  { label: '文言文推與敲', items: ['第一篇', '第二篇', '第三篇'] },
+                  { label: '考卷自修講義', items: ['第一篇', '第二篇', '第三篇'] },
+                ]
+              },
+              {
+                name: '字音字形練習',
+                items: []
+              }
+            ]
+          },
+          {
+            id: 'english',
+            title: '英文',
+            color: 'bg-blue-100',
+            borderColor: 'border-blue-300',
+            icon: <Icons.Globe />,
+            rotate: 'rotate-1',
+            simpleList: [
+              { title: 'L5 How Long Will We Stay in Bangkok?', link: '#' },
+              { title: "L6 How Do We Get to Joe's House?", link: '#' },
+            ]
+          },
+          {
+            id: 'history',
+            title: '歷史',
+            color: 'bg-amber-100',
+            borderColor: 'border-amber-300',
+            icon: <Icons.Clock />,
+            rotate: '-rotate-2',
+            simpleList: [
+              { title: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/HistoryQuizApp/' },
+              { title: 'L6 晚清的社會文化變遷', link: '#' },
+            ]
+          },
+          {
+            id: 'geography',
+            title: '地理',
+            color: 'bg-green-100',
+            borderColor: 'border-green-300',
+            icon: <Icons.Map />,
+            rotate: 'rotate-2',
+            simpleList: [
+              { title: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/MyQuizApp/' },
+              { title: 'L6 東北亞的經濟發展', link: '#' },
+            ]
+          },
+          {
+            id: 'civics',
+            title: '公民',
+            color: 'bg-purple-100',
+            borderColor: 'border-purple-300',
+            icon: <Icons.Landmark />,
+            rotate: '-rotate-1',
+            simpleList: [
+              { title: 'L5 我國的地方政府', link: '#' },
+              { title: 'L6 民主社會的政治參與及投票', link: '#' },
+            ]
+          },
+        ];
 
-      {/* Main Grid */}
-      <main className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-        {subjectsData.map((subject) => (
-          <SubjectCard key={subject.id} subject={subject} />
-        ))}
-      </main>
+        // --- 組件 ---
 
-      {/* Footer */}
-      <footer className="text-center mt-16 text-gray-400 font-hand text-sm">
-        <p>© 2025 學習資源小站 | Keep Learning!</p>
-      </footer>
-    </div>
-  );
-}
-
-// 學科卡片組件
-function SubjectCard({ subject }) {
-  const [isOpen, setIsOpen] = useState(true); // 預設展開
-
-  return (
-    <div 
-      className={`relative group transition-all duration-300 hover:z-20 ${subject.rotate} hover:scale-105 hover:rotate-0`}
-    >
-      {/* 膠帶效果 */}
-      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-yellow-200/50 tape z-10 rotate-1"></div>
-
-      <div className={`
-        ${subject.color} 
-        border-4 ${subject.borderColor} border-dashed 
-        rounded-xl shadow-lg p-5 h-full flex flex-col
-        relative overflow-hidden
-      `}>
-        {/* 卡片標題 */}
-        <div className="flex items-center justify-between mb-4 border-b-2 border-black/10 pb-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-white p-2 rounded-full border-2 border-gray-300 shadow-sm text-gray-700">
-              {subject.icon}
-            </div>
-            <h2 className="font-hand text-3xl text-gray-800">{subject.title}</h2>
-          </div>
-          {/* 裝飾性圖示 */}
-          <Smile className="text-gray-400/50 w-8 h-8" />
-        </div>
-
-        {/* 內容區域 */}
-        <div className="flex-1 space-y-4">
+        function LinkItem({ title, link, small = false }) {
+          const isLinked = link && link !== '#';
           
-          {/* 簡單列表 (英文/歷史/地理/公民) */}
-          {subject.simpleList && (
-            <ul className="space-y-2">
-              {subject.simpleList.map((item, idx) => (
-                <LinkItem key={idx} title={item.title} link={item.link} />
-              ))}
-            </ul>
-          )}
+          return (
+            <li className={`flex items-start gap-2 ${small ? 'text-sm' : 'text-base'}`}>
+              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
+              <a 
+                href={link} 
+                target={isLinked ? "_blank" : "_self"}
+                rel="noopener noreferrer"
+                className={`
+                  font-medium transition-colors text-left flex-1
+                  ${isLinked 
+                    ? 'text-blue-700 hover:text-red-500 hover:underline cursor-pointer' 
+                    : 'text-gray-500 cursor-default'
+                  }
+                `}
+              >
+                {title}
+                {isLinked && <Icons.ExternalLink />}
+              </a>
+            </li>
+          );
+        }
 
-          {/* 複雜分類 (國文) */}
-          {subject.categories && (
-            <div className="space-y-4">
-              {subject.categories.map((cat, idx) => (
-                <div key={idx} className="bg-white/60 rounded-lg p-3 border border-black/5">
-                  <h3 className="font-hand text-xl text-gray-700 mb-2 flex items-center before:content-['•'] before:mr-2 before:text-red-400">
-                    {cat.name}
-                  </h3>
+        function SubjectCard({ subject }) {
+          return (
+            <div 
+              className={`relative group transition-all duration-300 hover:z-20 ${subject.rotate} hover:scale-105 hover:rotate-0`}
+            >
+              {/* 膠帶效果 */}
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-yellow-200/50 tape z-10 rotate-1"></div>
+
+              <div className={`
+                ${subject.color} 
+                border-4 ${subject.borderColor} border-dashed 
+                rounded-xl shadow-lg p-5 h-full flex flex-col
+                relative overflow-hidden
+              `}>
+                {/* 卡片標題 */}
+                <div className="flex items-center justify-between mb-4 border-b-2 border-black/10 pb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-white p-2 rounded-full border-2 border-gray-300 shadow-sm text-gray-700">
+                      {subject.icon}
+                    </div>
+                    <h2 className="font-hand text-3xl text-gray-800">{subject.title}</h2>
+                  </div>
+                  <Icons.Smile />
+                </div>
+
+                {/* 內容區域 */}
+                <div className="flex-1 space-y-4">
                   
-                  {/* 一般連結列表 */}
-                  {cat.items && cat.items.length > 0 && (
-                    <ul className="space-y-1 ml-2">
-                      {cat.items.map((item, i) => (
-                         <LinkItem key={i} title={item.title} link={item.link} small />
+                  {/* 簡單列表 */}
+                  {subject.simpleList && (
+                    <ul className="space-y-2">
+                      {subject.simpleList.map((item, idx) => (
+                        <LinkItem key={idx} title={item.title} link={item.link} />
                       ))}
                     </ul>
                   )}
 
-                  {/* 像古文天地那樣的子區塊 */}
-                  {cat.subSections && (
-                    <div className="mt-2 space-y-2">
-                      {cat.subSections.map((sub, sIdx) => (
-                        <div key={sIdx} className="flex flex-wrap items-baseline gap-2 text-sm ml-2 border-l-2 border-gray-300 pl-2">
-                          <span className="font-bold text-gray-600">{sub.label}:</span>
-                          {sub.items.map((subItem, si) => (
-                            <a 
-                              key={si} 
-                              href="#" 
-                              className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
-                            >
-                              {subItem}
-                            </a>
-                          ))}
+                  {/* 複雜分類 (國文) */}
+                  {subject.categories && (
+                    <div className="space-y-4">
+                      {subject.categories.map((cat, idx) => (
+                        <div key={idx} className="bg-white/60 rounded-lg p-3 border border-black/5">
+                          <h3 className="font-hand text-xl text-gray-700 mb-2 flex items-center before:content-['•'] before:mr-2 before:text-red-400">
+                            {cat.name}
+                          </h3>
+                          
+                          {cat.items && cat.items.length > 0 && (
+                            <ul className="space-y-1 ml-2">
+                              {cat.items.map((item, i) => (
+                                 <LinkItem key={i} title={item.title} link={item.link} small />
+                              ))}
+                            </ul>
+                          )}
+
+                          {cat.subSections && (
+                            <div className="mt-2 space-y-2">
+                              {cat.subSections.map((sub, sIdx) => (
+                                <div key={sIdx} className="flex flex-wrap items-baseline gap-2 text-sm ml-2 border-l-2 border-gray-300 pl-2">
+                                  <span className="font-bold text-gray-600">{sub.label}:</span>
+                                  {sub.items.map((subItem, si) => (
+                                    <a 
+                                      key={si} 
+                                      href="#" 
+                                      className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                                    >
+                                      {subItem}
+                                    </a>
+                                  ))}
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
                   )}
                 </div>
-              ))}
+
+                <div className="mt-4 text-right">
+                   <span className="text-xs font-hand text-gray-500/70">Study Hard!</span>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
+          );
+        }
 
-        {/* 底部裝飾 */}
-        <div className="mt-4 text-right">
-           <span className="text-xs font-hand text-gray-500/70">Study Hard!</span>
-        </div>
-      </div>
-    </div>
-  );
-}
+        function App() {
+          return (
+            <div className="min-h-screen pb-20 overflow-x-hidden">
+              {/* Header */}
+              <header className="pt-10 pb-6 text-center relative">
+                <div className="inline-block relative z-10 transform -rotate-2">
+                  <div className="bg-yellow-200 absolute -inset-2 transform rotate-1 rounded-lg shadow-md opacity-80"></div>
+                  <h1 className="relative font-hand text-4xl md:text-6xl text-gray-800 px-6 py-2 border-4 border-dashed border-gray-600 rounded-lg bg-white">
+                    <span className="text-red-500">快樂</span>學習目錄
+                    <Icons.Pencil />
+                  </h1>
+                </div>
+                <p className="mt-4 text-gray-600 font-hand text-xl">點擊下方卡片開始學習吧！</p>
+              </header>
 
-// 單個連結項目組件
-function LinkItem({ title, link, small = false }) {
-  const isLinked = link && link !== '#';
-  
-  return (
-    <li className={`flex items-start gap-2 ${small ? 'text-sm' : 'text-base'}`}>
-      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
-      <a 
-        href={link} 
-        target={isLinked ? "_blank" : "_self"}
-        rel="noopener noreferrer"
-        className={`
-          font-medium transition-colors text-left flex-1
-          ${isLinked 
-            ? 'text-blue-700 hover:text-red-500 hover:underline cursor-pointer' 
-            : 'text-gray-500 cursor-default'
-          }
-        `}
-      >
-        {title}
-        {isLinked && <ExternalLink className="inline w-3 h-3 ml-1 mb-1 opacity-50" />}
-      </a>
-    </li>
-  );
-}
+              {/* Main Grid */}
+              <main className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                {subjectsData.map((subject) => (
+                  <SubjectCard key={subject.id} subject={subject} />
+                ))}
+              </main>
+
+              {/* Footer */}
+              <footer className="text-center mt-16 text-gray-400 font-hand text-sm">
+                <p>© 2025 學習資源小站 | Keep Learning!</p>
+              </footer>
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
