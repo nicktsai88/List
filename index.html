@@ -15,16 +15,26 @@
     <!-- 引入 Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts 引入 Zen Maru Gothic (可愛圓體) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
+        /* 全域字體設定：統一使用可愛圓體 */
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+        
         .font-hand {
-            font-family: 'ZCOOL KuaiLe', cursive;
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 700; /* 標題用粗一點 */
         }
         .font-body {
-            font-family: 'Noto Sans TC', sans-serif;
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 500; /* 內文用中等粗細，比較清楚 */
         }
+
         .paper-texture {
             background-color: #fffdf5;
             background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
@@ -54,7 +64,7 @@
         }
     </style>
 </head>
-<body class="paper-texture font-body min-h-[100dvh]">
+<body class="paper-texture min-h-[100dvh]">
     <div id="root"></div>
 
     <script type="text/babel">
@@ -63,34 +73,34 @@
         // --- Icons ---
         const Icons = {
             Feather: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
             ),
             Globe: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
             ),
             Clock: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             ),
             Map: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
             ),
             Landmark: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7 12 2"></polygon></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7 12 2"></polygon></svg>
             ),
             Smile: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400/50 w-8 h-8"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400/50 w-8 h-8"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
             ),
             Pencil: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 w-8 h-8 text-blue-500 animate-bounce"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 w-8 h-8 text-blue-500 animate-bounce"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
             ),
             ExternalLink: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline w-3 h-3 ml-1 mb-1 opacity-50"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline w-3 h-3 ml-1 mb-1 opacity-50"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             ),
             ChevronDown: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             ),
              ChevronRight: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             )
         };
 
@@ -224,13 +234,13 @@
           return (
             // iPad優化：增加 py-2 提升點擊舒適度
             <li className={`flex items-start gap-2 py-2 ${small ? 'text-base' : 'text-lg'}`}>
-              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
+              <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
               <a 
                 href={link} 
                 target={isLinked ? "_blank" : "_self"}
                 rel="noopener noreferrer"
                 className={`
-                  font-medium transition-colors text-left flex-1 break-words leading-relaxed
+                  font-medium transition-colors text-left flex-1 break-words leading-relaxed tracking-wide
                   ${isLinked 
                     ? 'text-blue-700 hover:text-red-500 active:text-red-600 cursor-pointer' 
                     : 'text-gray-500 cursor-default'
@@ -256,7 +266,7 @@
                         className="flex items-center gap-2 w-full text-left font-bold text-gray-700 hover:text-blue-600 active:scale-95 transition-all py-3 rounded-lg hover:bg-black/5"
                     >
                         {isOpen ? <Icons.ChevronDown /> : <Icons.ChevronRight />}
-                        <span className="text-lg">{label}</span>
+                        <span className="text-lg tracking-wide">{label}</span>
                         <span className="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                             {items.length}
                         </span>
@@ -268,7 +278,7 @@
                                 {items.map((subItem, si) => (
                                     <li key={si} className="text-base text-gray-600 pl-1 flex items-start gap-3 py-1">
                                         <span className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2.5 flex-shrink-0"></span>
-                                        <span className="cursor-default hover:text-gray-800 transition-colors leading-relaxed">{subItem}</span>
+                                        <span className="cursor-default hover:text-gray-800 transition-colors leading-relaxed tracking-wide">{subItem}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -298,7 +308,7 @@
                     <div className="bg-white p-3 rounded-full border-2 border-gray-300 shadow-sm text-gray-700">
                       {subject.icon}
                     </div>
-                    <h2 className="font-hand text-4xl text-gray-800">{subject.title}</h2>
+                    <h2 className="font-hand text-3xl font-black text-gray-800 tracking-wider">{subject.title}</h2>
                   </div>
                   <Icons.Smile />
                 </div>
@@ -320,7 +330,7 @@
                     <div className="space-y-6">
                       {subject.categories.map((cat, idx) => (
                         <div key={idx} className="bg-white/60 rounded-xl p-4 border border-black/5 shadow-sm">
-                          <h3 className="font-hand text-2xl text-gray-700 mb-3 flex items-center before:content-['•'] before:mr-2 before:text-red-400">
+                          <h3 className="font-hand text-xl font-bold text-gray-700 mb-3 flex items-center before:content-['•'] before:mr-2 before:text-red-400 tracking-wide">
                             {cat.name}
                           </h3>
                           
@@ -346,7 +356,7 @@
                 </div>
 
                 <div className="mt-6 text-right">
-                   <span className="text-sm font-hand text-gray-500/70 font-bold">Study Hard!</span>
+                   <span className="text-sm font-hand text-gray-500/70 font-bold tracking-widest">Study Hard!</span>
                 </div>
               </div>
             </div>
@@ -360,12 +370,12 @@
               <header className="pt-12 pb-8 text-center relative">
                 <div className="inline-block relative z-10 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
                   <div className="bg-yellow-200 absolute -inset-2 transform rotate-1 rounded-xl shadow-md opacity-80"></div>
-                  <h1 className="relative font-hand text-5xl md:text-7xl text-gray-800 px-8 py-4 border-4 border-dashed border-gray-600 rounded-xl bg-white">
+                  <h1 className="relative font-hand text-5xl md:text-7xl font-black text-gray-800 px-8 py-4 border-4 border-dashed border-gray-600 rounded-xl bg-white tracking-wider">
                     <span className="text-red-500">快樂</span>學習目錄
                     <Icons.Pencil />
                   </h1>
                 </div>
-                <p className="mt-6 text-gray-600 font-hand text-2xl">點擊下方卡片開始學習吧！</p>
+                <p className="mt-6 text-gray-600 font-hand text-2xl font-bold tracking-wide">點擊下方卡片開始學習吧！</p>
               </header>
 
               {/* Main Grid: iPad直向雙欄，橫向三欄 */}
@@ -376,7 +386,7 @@
               </main>
 
               {/* Footer */}
-              <footer className="text-center mt-20 text-gray-400 font-hand text-base">
+              <footer className="text-center mt-20 text-gray-400 font-hand text-base tracking-widest">
                 <p>© 2025 學習資源小站 | Keep Learning!</p>
               </footer>
             </div>
