@@ -1,0 +1,278 @@
+import React, { useState } from 'react';
+import { BookOpen, Globe, Clock, Feather, Pencil, Smile, Map, Landmark, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+
+// Google Fonts 注入 (ZCOOL KuaiLe 用於標題, Noto Sans TC 用於內文)
+const fontStyles = `
+  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+  
+  .font-hand {
+    font-family: 'ZCOOL KuaiLe', cursive;
+  }
+  .font-body {
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .paper-texture {
+    background-color: #fffdf5;
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .tape {
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    backdrop-filter: blur(2px);
+    border-left: 1px dashed rgba(0,0,0,0.1);
+    border-right: 1px dashed rgba(0,0,0,0.1);
+  }
+`;
+
+// 資料結構：根據您的圖片與描述建立
+const subjectsData = [
+  {
+    id: 'chinese',
+    title: '國文',
+    color: 'bg-red-100',
+    borderColor: 'border-red-300',
+    icon: <FeatherIcon />,
+    rotate: '-rotate-1',
+    categories: [
+      {
+        name: '課文題庫練習',
+        items: [
+          { title: 'L7 張釋之執法', link: 'https://nicktsai88.github.io/Chinese3-L7/' },
+          { title: 'L8 尋找失落的水源', link: '#' },
+          { title: 'L9 一棵開花的樹', link: '#' },
+          { title: 'L10 畫的哀傷', link: '#' },
+          { title: '選文三 安藤忠雄', link: '#' },
+        ]
+      },
+      {
+        name: '成語大師',
+        items: [
+          { title: '第一回', link: 'https://nicktsai88.github.io/ChineseIdiom1/' },
+          { title: '第二回', link: '#' },
+          { title: '第三回', link: '#' },
+          { title: '第四回', link: '#' },
+          { title: '第五回', link: '#' },
+        ]
+      },
+      {
+        name: '古文天地',
+        subSections: [
+          { label: '吳敏男', items: ['第一篇', '第二篇', '第三篇'] },
+          { label: '文言文推與敲', items: ['第一篇', '第二篇', '第三篇'] },
+          { label: '考卷自修講義', items: ['第一篇', '第二篇', '第三篇'] },
+        ]
+      },
+      {
+        name: '字音字形練習',
+        items: [] // 暫無資料
+      }
+    ]
+  },
+  {
+    id: 'english',
+    title: '英文',
+    color: 'bg-blue-100',
+    borderColor: 'border-blue-300',
+    icon: <GlobeIcon />,
+    rotate: 'rotate-1',
+    simpleList: [
+      { title: 'L5 How Long Will We Stay in Bangkok?', link: '#' },
+      { title: "L6 How Do We Get to Joe's House?", link: '#' },
+    ]
+  },
+  {
+    id: 'history',
+    title: '歷史',
+    color: 'bg-amber-100',
+    borderColor: 'border-amber-300',
+    icon: <HistoryIcon />,
+    rotate: '-rotate-2',
+    simpleList: [
+      { title: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/HistoryQuizApp/' },
+      { title: 'L6 晚清的社會文化變遷', link: '#' },
+    ]
+  },
+  {
+    id: 'geography',
+    title: '地理',
+    color: 'bg-green-100',
+    borderColor: 'border-green-300',
+    icon: <MapIcon />,
+    rotate: 'rotate-2',
+    simpleList: [
+      { title: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/MyQuizApp/' },
+      { title: 'L6 東北亞的經濟發展', link: '#' },
+    ]
+  },
+  {
+    id: 'civics',
+    title: '公民',
+    color: 'bg-purple-100',
+    borderColor: 'border-purple-300',
+    icon: <LandmarkIcon />,
+    rotate: '-rotate-1',
+    simpleList: [
+      { title: 'L5 我國的地方政府', link: '#' },
+      { title: 'L6 民主社會的政治參與及投票', link: '#' },
+    ]
+  },
+];
+
+// 自定義 Icon 組件 (為了更換圖示方便)
+function FeatherIcon() { return <Feather className="w-6 h-6" />; } 
+function GlobeIcon() { return <Globe className="w-6 h-6" />; }
+function HistoryIcon() { return <Clock className="w-6 h-6" />; } 
+function MapIcon() { return <Map className="w-6 h-6" />; }
+function LandmarkIcon() { return <Landmark className="w-6 h-6" />; }
+
+export default function App() {
+  return (
+    <div className="min-h-screen paper-texture font-body pb-20 overflow-x-hidden">
+      <style>{fontStyles}</style>
+
+      {/* Header */}
+      <header className="pt-10 pb-6 text-center relative">
+        <div className="inline-block relative z-10 transform -rotate-2">
+          <div className="bg-yellow-200 absolute -inset-2 transform rotate-1 rounded-lg shadow-md opacity-80"></div>
+          <h1 className="relative font-hand text-4xl md:text-6xl text-gray-800 px-6 py-2 border-4 border-dashed border-gray-600 rounded-lg bg-white">
+            <span className="text-red-500">快樂</span>學習目錄
+            <Pencil className="inline-block ml-3 w-8 h-8 text-blue-500 animate-bounce" />
+          </h1>
+        </div>
+        <p className="mt-4 text-gray-600 font-hand text-xl">點擊下方卡片開始學習吧！</p>
+      </header>
+
+      {/* Main Grid */}
+      <main className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        {subjectsData.map((subject) => (
+          <SubjectCard key={subject.id} subject={subject} />
+        ))}
+      </main>
+
+      {/* Footer */}
+      <footer className="text-center mt-16 text-gray-400 font-hand text-sm">
+        <p>© 2025 學習資源小站 | Keep Learning!</p>
+      </footer>
+    </div>
+  );
+}
+
+// 學科卡片組件
+function SubjectCard({ subject }) {
+  const [isOpen, setIsOpen] = useState(true); // 預設展開
+
+  return (
+    <div 
+      className={`relative group transition-all duration-300 hover:z-20 ${subject.rotate} hover:scale-105 hover:rotate-0`}
+    >
+      {/* 膠帶效果 */}
+      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-yellow-200/50 tape z-10 rotate-1"></div>
+
+      <div className={`
+        ${subject.color} 
+        border-4 ${subject.borderColor} border-dashed 
+        rounded-xl shadow-lg p-5 h-full flex flex-col
+        relative overflow-hidden
+      `}>
+        {/* 卡片標題 */}
+        <div className="flex items-center justify-between mb-4 border-b-2 border-black/10 pb-2">
+          <div className="flex items-center gap-2">
+            <div className="bg-white p-2 rounded-full border-2 border-gray-300 shadow-sm text-gray-700">
+              {subject.icon}
+            </div>
+            <h2 className="font-hand text-3xl text-gray-800">{subject.title}</h2>
+          </div>
+          {/* 裝飾性圖示 */}
+          <Smile className="text-gray-400/50 w-8 h-8" />
+        </div>
+
+        {/* 內容區域 */}
+        <div className="flex-1 space-y-4">
+          
+          {/* 簡單列表 (英文/歷史/地理/公民) */}
+          {subject.simpleList && (
+            <ul className="space-y-2">
+              {subject.simpleList.map((item, idx) => (
+                <LinkItem key={idx} title={item.title} link={item.link} />
+              ))}
+            </ul>
+          )}
+
+          {/* 複雜分類 (國文) */}
+          {subject.categories && (
+            <div className="space-y-4">
+              {subject.categories.map((cat, idx) => (
+                <div key={idx} className="bg-white/60 rounded-lg p-3 border border-black/5">
+                  <h3 className="font-hand text-xl text-gray-700 mb-2 flex items-center before:content-['•'] before:mr-2 before:text-red-400">
+                    {cat.name}
+                  </h3>
+                  
+                  {/* 一般連結列表 */}
+                  {cat.items && cat.items.length > 0 && (
+                    <ul className="space-y-1 ml-2">
+                      {cat.items.map((item, i) => (
+                         <LinkItem key={i} title={item.title} link={item.link} small />
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* 像古文天地那樣的子區塊 */}
+                  {cat.subSections && (
+                    <div className="mt-2 space-y-2">
+                      {cat.subSections.map((sub, sIdx) => (
+                        <div key={sIdx} className="flex flex-wrap items-baseline gap-2 text-sm ml-2 border-l-2 border-gray-300 pl-2">
+                          <span className="font-bold text-gray-600">{sub.label}:</span>
+                          {sub.items.map((subItem, si) => (
+                            <a 
+                              key={si} 
+                              href="#" 
+                              className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+                            >
+                              {subItem}
+                            </a>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* 底部裝飾 */}
+        <div className="mt-4 text-right">
+           <span className="text-xs font-hand text-gray-500/70">Study Hard!</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 單個連結項目組件
+function LinkItem({ title, link, small = false }) {
+  const isLinked = link && link !== '#';
+  
+  return (
+    <li className={`flex items-start gap-2 ${small ? 'text-sm' : 'text-base'}`}>
+      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
+      <a 
+        href={link} 
+        target={isLinked ? "_blank" : "_self"}
+        rel="noopener noreferrer"
+        className={`
+          font-medium transition-colors text-left flex-1
+          ${isLinked 
+            ? 'text-blue-700 hover:text-red-500 hover:underline cursor-pointer' 
+            : 'text-gray-500 cursor-default'
+          }
+        `}
+      >
+        {title}
+        {isLinked && <ExternalLink className="inline w-3 h-3 ml-1 mb-1 opacity-50" />}
+      </a>
+    </li>
+  );
+}
