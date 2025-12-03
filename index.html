@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>快樂學習目錄</title>
     
     <!-- 引入 Tailwind CSS -->
@@ -12,7 +12,7 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- 引入 Babel (讓瀏覽器可以讀懂 React 語法) -->
+    <!-- 引入 Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <!-- Google Fonts -->
@@ -37,29 +37,30 @@
             border-left: 1px dashed rgba(0,0,0,0.1);
             border-right: 1px dashed rgba(0,0,0,0.1);
         }
-        /* 自定義捲軸 */
-        ::-webkit-scrollbar {
-            width: 10px;
+        /* 優化 iOS 捲動體驗 */
+        .custom-scrollbar {
+            -webkit-overflow-scrolling: touch;
         }
-        ::-webkit-scrollbar-track {
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px; /* 加寬捲軸方便觸控 */
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
             background: #f1f1f1;
+            border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb {
+        .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #cbd5e1;
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body class="paper-texture font-body">
+<body class="paper-texture font-body min-h-[100dvh]">
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState } = React;
 
-        // --- SVG Icons (手動定義以避免依賴問題) ---
+        // --- Icons ---
         const Icons = {
             Feather: () => (
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
@@ -84,6 +85,12 @@
             ),
             ExternalLink: () => (
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline w-3 h-3 ml-1 mb-1 opacity-50"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            ),
+            ChevronDown: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            ),
+             ChevronRight: () => (
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             )
         };
 
@@ -118,17 +125,45 @@
                 ]
               },
               {
-                name: '古文天地',
-                subSections: [
-                  { label: '吳敏男', items: ['第一篇', '第二篇', '第三篇'] },
-                  { label: '文言文推與敲', items: ['第一篇', '第二篇', '第三篇'] },
-                  { label: '考卷自修講義', items: ['第一篇', '第二篇', '第三篇'] },
+                name: '字音字形練習',
+                items: [
+                    { title: '第一回', link: '#' },
+                    { title: '第二回', link: '#' },
+                    { title: '第三回', link: '#' },
                 ]
               },
               {
-                name: '字音字形練習',
-                items: []
-              }
+                name: '古文天地',
+                subSections: [
+                  { 
+                      label: '吳敏男 - 第一輯上冊', 
+                      items: [
+                          '1 <論語> 孔子與弟子言志', '2 <論語> 論廉恥', '3 <論語> 暴虎馮河', 
+                          '4 <論語> 論忠信', '5 <禮記> 仁哉管仲', '6 <論語> 問一得三',
+                          '7 <論語> 顏回好學', '8 <論語> 割雞焉用牛刀', '9 <禮記> 苛政猛於虎',
+                          '10 <孝經> 開宗明義章', '11 <孟子> 奕喻', '12 <孟子> 揠苗助長',
+                          '13 <韓非子> 鄭人買履', '14 <韓非子> 美醜之論', '15 <韓非子> 濫竽充數',
+                          '16 <韓非子> 守株待兔', '17 <韓非子> 畫鬼最易', '18 <韓非子> 晉文公攻原得衛'
+                      ] 
+                  },
+                  { 
+                      label: '吳敏男 - 第二輯', 
+                      items: [
+                          '1 <禮記> 不食嗟來食', '2 <禮記> 子夏喪明', '3 <韓非子> 三人成虎', 
+                          '4 <韓非子> 和氏璧', '5 <韓非子> 齊桓公好服紫', '6 <韓非子> 郢書燕說', 
+                          '7 <韓非子> 衛女多私被林'
+                      ] 
+                  },
+                  { 
+                      label: '文言文推與敲', 
+                      items: [
+                          '1 覆水難收', '2 鳥', '3 白娘子永鎮雷峰塔', 
+                          '4 懷橘遺親', '5 子罕辭寶', '6 晏子使楚', 
+                          '7 肉脯可充饑', '8 恍惚'
+                      ] 
+                  },
+                ]
+              },
             ]
           },
           {
@@ -187,16 +222,17 @@
           const isLinked = link && link !== '#';
           
           return (
-            <li className={`flex items-start gap-2 ${small ? 'text-sm' : 'text-base'}`}>
-              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
+            // iPad優化：增加 py-2 提升點擊舒適度
+            <li className={`flex items-start gap-2 py-2 ${small ? 'text-base' : 'text-lg'}`}>
+              <span className="mt-2 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
               <a 
                 href={link} 
                 target={isLinked ? "_blank" : "_self"}
                 rel="noopener noreferrer"
                 className={`
-                  font-medium transition-colors text-left flex-1
+                  font-medium transition-colors text-left flex-1 break-words leading-relaxed
                   ${isLinked 
-                    ? 'text-blue-700 hover:text-red-500 hover:underline cursor-pointer' 
+                    ? 'text-blue-700 hover:text-red-500 active:text-red-600 cursor-pointer' 
                     : 'text-gray-500 cursor-default'
                   }
                 `}
@@ -208,37 +244,71 @@
           );
         }
 
+        // 可折疊的子區塊 (用於古文天地等長列表)
+        function SubSection({ label, items }) {
+            const [isOpen, setIsOpen] = useState(false);
+
+            return (
+                // iPad優化：增加 margin 和 padding
+                <div className="ml-2 border-l-4 border-gray-200 pl-3 my-2">
+                    <button 
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="flex items-center gap-2 w-full text-left font-bold text-gray-700 hover:text-blue-600 active:scale-95 transition-all py-3 rounded-lg hover:bg-black/5"
+                    >
+                        {isOpen ? <Icons.ChevronDown /> : <Icons.ChevronRight />}
+                        <span className="text-lg">{label}</span>
+                        <span className="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                            {items.length}
+                        </span>
+                    </button>
+                    
+                    {isOpen && (
+                        <div className="mt-2 max-h-64 overflow-y-auto custom-scrollbar pr-2">
+                            <ul className="space-y-2 pb-2">
+                                {items.map((subItem, si) => (
+                                    <li key={si} className="text-base text-gray-600 pl-1 flex items-start gap-3 py-1">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2.5 flex-shrink-0"></span>
+                                        <span className="cursor-default hover:text-gray-800 transition-colors leading-relaxed">{subItem}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
         function SubjectCard({ subject }) {
           return (
             <div 
-              className={`relative group transition-all duration-300 hover:z-20 ${subject.rotate} hover:scale-105 hover:rotate-0`}
+              className={`relative group transition-all duration-300 ${subject.rotate} md:hover:scale-105 hover:rotate-0`}
             >
               {/* 膠帶效果 */}
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-yellow-200/50 tape z-10 rotate-1"></div>
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-10 bg-yellow-200/50 tape z-10 rotate-1"></div>
 
               <div className={`
                 ${subject.color} 
                 border-4 ${subject.borderColor} border-dashed 
-                rounded-xl shadow-lg p-5 h-full flex flex-col
+                rounded-2xl shadow-lg p-6 h-full flex flex-col
                 relative overflow-hidden
               `}>
                 {/* 卡片標題 */}
-                <div className="flex items-center justify-between mb-4 border-b-2 border-black/10 pb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="bg-white p-2 rounded-full border-2 border-gray-300 shadow-sm text-gray-700">
+                <div className="flex items-center justify-between mb-6 border-b-2 border-black/10 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-white p-3 rounded-full border-2 border-gray-300 shadow-sm text-gray-700">
                       {subject.icon}
                     </div>
-                    <h2 className="font-hand text-3xl text-gray-800">{subject.title}</h2>
+                    <h2 className="font-hand text-4xl text-gray-800">{subject.title}</h2>
                   </div>
                   <Icons.Smile />
                 </div>
 
                 {/* 內容區域 */}
-                <div className="flex-1 space-y-4">
+                <div className="flex-1 space-y-6">
                   
                   {/* 簡單列表 */}
                   {subject.simpleList && (
-                    <ul className="space-y-2">
+                    <ul className="space-y-1">
                       {subject.simpleList.map((item, idx) => (
                         <LinkItem key={idx} title={item.title} link={item.link} />
                       ))}
@@ -247,10 +317,10 @@
 
                   {/* 複雜分類 (國文) */}
                   {subject.categories && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       {subject.categories.map((cat, idx) => (
-                        <div key={idx} className="bg-white/60 rounded-lg p-3 border border-black/5">
-                          <h3 className="font-hand text-xl text-gray-700 mb-2 flex items-center before:content-['•'] before:mr-2 before:text-red-400">
+                        <div key={idx} className="bg-white/60 rounded-xl p-4 border border-black/5 shadow-sm">
+                          <h3 className="font-hand text-2xl text-gray-700 mb-3 flex items-center before:content-['•'] before:mr-2 before:text-red-400">
                             {cat.name}
                           </h3>
                           
@@ -263,20 +333,9 @@
                           )}
 
                           {cat.subSections && (
-                            <div className="mt-2 space-y-2">
+                            <div className="mt-4 space-y-3">
                               {cat.subSections.map((sub, sIdx) => (
-                                <div key={sIdx} className="flex flex-wrap items-baseline gap-2 text-sm ml-2 border-l-2 border-gray-300 pl-2">
-                                  <span className="font-bold text-gray-600">{sub.label}:</span>
-                                  {sub.items.map((subItem, si) => (
-                                    <a 
-                                      key={si} 
-                                      href="#" 
-                                      className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
-                                    >
-                                      {subItem}
-                                    </a>
-                                  ))}
-                                </div>
+                                <SubSection key={sIdx} label={sub.label} items={sub.items} />
                               ))}
                             </div>
                           )}
@@ -286,8 +345,8 @@
                   )}
                 </div>
 
-                <div className="mt-4 text-right">
-                   <span className="text-xs font-hand text-gray-500/70">Study Hard!</span>
+                <div className="mt-6 text-right">
+                   <span className="text-sm font-hand text-gray-500/70 font-bold">Study Hard!</span>
                 </div>
               </div>
             </div>
@@ -296,28 +355,28 @@
 
         function App() {
           return (
-            <div className="min-h-screen pb-20 overflow-x-hidden">
+            <div className="min-h-[100dvh] pb-24 overflow-x-hidden">
               {/* Header */}
-              <header className="pt-10 pb-6 text-center relative">
-                <div className="inline-block relative z-10 transform -rotate-2">
-                  <div className="bg-yellow-200 absolute -inset-2 transform rotate-1 rounded-lg shadow-md opacity-80"></div>
-                  <h1 className="relative font-hand text-4xl md:text-6xl text-gray-800 px-6 py-2 border-4 border-dashed border-gray-600 rounded-lg bg-white">
+              <header className="pt-12 pb-8 text-center relative">
+                <div className="inline-block relative z-10 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                  <div className="bg-yellow-200 absolute -inset-2 transform rotate-1 rounded-xl shadow-md opacity-80"></div>
+                  <h1 className="relative font-hand text-5xl md:text-7xl text-gray-800 px-8 py-4 border-4 border-dashed border-gray-600 rounded-xl bg-white">
                     <span className="text-red-500">快樂</span>學習目錄
                     <Icons.Pencil />
                   </h1>
                 </div>
-                <p className="mt-4 text-gray-600 font-hand text-xl">點擊下方卡片開始學習吧！</p>
+                <p className="mt-6 text-gray-600 font-hand text-2xl">點擊下方卡片開始學習吧！</p>
               </header>
 
-              {/* Main Grid */}
-              <main className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+              {/* Main Grid: iPad直向雙欄，橫向三欄 */}
+              <main className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-4">
                 {subjectsData.map((subject) => (
                   <SubjectCard key={subject.id} subject={subject} />
                 ))}
               </main>
 
               {/* Footer */}
-              <footer className="text-center mt-16 text-gray-400 font-hand text-sm">
+              <footer className="text-center mt-20 text-gray-400 font-hand text-base">
                 <p>© 2025 學習資源小站 | Keep Learning!</p>
               </footer>
             </div>
