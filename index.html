@@ -2,400 +2,338 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>快樂學習目錄</title>
-    
-    <!-- 引入 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 引入 React 和 ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <!-- 引入 Babel -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!-- Google Fonts 引入 Zen Maru Gothic (可愛圓體) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nick's 學習筆記目錄</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&family=Yomogi&family=ZCOOL+KuaiLe&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'paper-yellow': '#fdf6e3',
+                        'pencil-gray': '#333333',
+                        'crayon-blue': '#a8d8ea',
+                        'crayon-pink': '#fcbad3',
+                        'crayon-green': '#aa96da',
+                        'crayon-orange': '#fce38a',
+                    },
+                    fontFamily: {
+                        'hand': ['"ZCOOL KuaiLe"', '"Yomogi"', '"Zen Maru Gothic"', '"Mali"', '"Microsoft JhengHei"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        /* 全域字體設定：統一使用可愛圓體 */
         body {
-            font-family: 'Zen Maru Gothic', sans-serif;
-        }
-        
-        .font-hand {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 700; /* 標題用粗一點 */
-        }
-        .font-body {
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 500; /* 內文用中等粗細，比較清楚 */
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#dbe2e8 1px, transparent 1px);
+            background-size: 20px 20px;
+            font-family: 'ZCOOL KuaiLe', 'Yomogi', 'Zen Maru Gothic', 'Microsoft JhengHei', sans-serif;
+            letter-spacing: 0.05em;
         }
 
-        .paper-texture {
-            background-color: #fffdf5;
-            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
+        .hand-drawn-box {
+            border: 3px solid #333;
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
         }
+
+        .hand-drawn-box:hover {
+            transform: translateY(-3px) rotate(-1deg);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+        }
+
+        .notebook-lines {
+            background-color: #fff;
+            background-image: repeating-linear-gradient(transparent, transparent 31px, #e5e7eb 31px, #e5e7eb 32px);
+            line-height: 32px;
+            padding-top: 2px;
+        }
+
         .tape {
             background-color: rgba(255, 255, 255, 0.4);
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             backdrop-filter: blur(2px);
+            transform: rotate(-2deg);
             border-left: 1px dashed rgba(0,0,0,0.1);
             border-right: 1px dashed rgba(0,0,0,0.1);
         }
-        /* 優化 iOS 捲動體驗 */
-        .custom-scrollbar {
-            -webkit-overflow-scrolling: touch;
+
+        a {
+            text-decoration: none;
+            color: #4b5563;
+            display: block;
+            transition: color 0.2s;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px; /* 加寬捲軸方便觸控 */
+        a:hover {
+            color: #d946ef;
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-style: wavy;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
+
+        .font-english {
+            font-family: 'Mali', cursive;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
         }
     </style>
 </head>
-<body class="paper-texture min-h-[100dvh]">
-    <div id="root"></div>
+<body class="p-4 md:p-8 min-h-screen text-pencil-gray">
 
-    <script type="text/babel">
-        const { useState } = React;
+    <!-- Header -->
+    <header class="max-w-6xl mx-auto mb-12 text-center relative">
+        <h1 class="text-5xl md:text-7xl mb-4 text-gray-800 drop-shadow-md rotate-[-2deg] inline-block bg-yellow-100 px-8 py-4 hand-drawn-box">
+            Nick's 學習目錄 ✏️
+        </h1>
+        <p class="text-xl mt-4 text-gray-600 font-hand font-bold">快樂學習 · 知識積累 · 手繪筆記</p>
+    </header>
 
-        // --- Icons ---
-        const Icons = {
-            Feather: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
-            ),
-            Globe: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-            ),
-            Clock: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            ),
-            Map: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-            ),
-            Landmark: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7 12 2"></polygon></svg>
-            ),
-            Smile: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400/50 w-8 h-8"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
-            ),
-            Pencil: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 w-8 h-8 text-blue-500 animate-bounce"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-            ),
-            ExternalLink: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline w-3 h-3 ml-1 mb-1 opacity-50"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            ),
-            ChevronDown: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            ),
-             ChevronRight: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            )
-        };
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-        // --- 資料結構 (已更新內容) ---
-        const subjectsData = [
-          {
-            id: 'chinese',
-            title: '國文',
-            color: 'bg-red-100',
-            borderColor: 'border-red-300',
-            icon: <Icons.Feather />,
-            rotate: '-rotate-1',
-            categories: [
-              {
-                name: '課文題庫練習',
-                items: [
-                  { title: 'L7 張釋之執法', link: 'https://nicktsai88.github.io/Chinese3-L7/' },
-                  { title: 'L8 尋找失落的水源', link: '#' },
-                  { title: 'L9 一棵開花的樹', link: '#' },
-                  { title: 'L10 畫的哀傷', link: '#' },
-                  { title: '選文三 安藤忠雄', link: '#' },
-                ]
-              },
-              {
-                name: '成語大師',
-                items: [
-                  { title: '第一回', link: 'https://nicktsai88.github.io/ChineseIdiom1/' },
-                  { title: '第二回', link: '#' },
-                  { title: '第三回', link: '#' },
-                  { title: '第四回', link: '#' },
-                  { title: '第五回', link: '#' },
-                ]
-              },
-              {
-                name: '字音字形練習',
-                items: [
-                    { title: '第一回', link: '#' },
-                    { title: '第二回', link: '#' },
-                    { title: '第三回', link: '#' },
-                ]
-              },
-              {
-                name: '古文天地',
-                subSections: [
-                  { 
-                      label: '吳敏男 - 第一輯上冊', 
-                      items: [
-                          '1 <論語> 孔子與弟子言志', '2 <論語> 論廉恥', '3 <論語> 暴虎馮河', 
-                          '4 <論語> 論忠信', '5 <禮記> 仁哉管仲', '6 <論語> 問一得三',
-                          '7 <論語> 顏回好學', '8 <論語> 割雞焉用牛刀', '9 <禮記> 苛政猛於虎',
-                          '10 <孝經> 開宗明義章', '11 <孟子> 奕喻', '12 <孟子> 揠苗助長',
-                          '13 <韓非子> 鄭人買履', '14 <韓非子> 美醜之論', '15 <韓非子> 濫竽充數',
-                          '16 <韓非子> 守株待兔', '17 <韓非子> 畫鬼最易', '18 <韓非子> 晉文公攻原得衛',
-                          '19 <韓非子> 唇亡齒寒'
-                      ] 
-                  },
-                  { 
-                      label: '吳敏男 - 第二輯', 
-                      items: [
-                          '1 <禮記> 不食嗟來食', '2 <禮記> 子夏喪明', '3 <韓非子> 三人成虎', 
-                          '4 <韓非子> 和氏璧', '5 <韓非子> 齊桓公好服紫', '6 <韓非子> 郢書燕說', 
-                          '7 <韓非子> 衛女多私被林'
-                      ] 
-                  },
-                  { 
-                      label: '文言文推與敲', 
-                      items: [
-                          '1 覆水難收', '2 鳥', '3 白娘子永鎮雷峰塔', 
-                          '4 懷橘遺親', '5 子罕辭寶', '6 晏子使楚', 
-                          '7 肉脯可充饑', '8 恍惚'
-                      ] 
-                  },
-                ]
-              },
-            ]
-          },
-          {
-            id: 'english',
-            title: '英文',
-            color: 'bg-blue-100',
-            borderColor: 'border-blue-300',
-            icon: <Icons.Globe />,
-            rotate: 'rotate-1',
-            simpleList: [
-              { title: 'L5 How Long Will We Stay in Bangkok?', link: '#' },
-              { title: "L6 How Do We Get to Joe's House?", link: '#' },
-            ]
-          },
-          {
-            id: 'history',
-            title: '歷史',
-            color: 'bg-amber-100',
-            borderColor: 'border-amber-300',
-            icon: <Icons.Clock />,
-            rotate: '-rotate-2',
-            simpleList: [
-              { title: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/HistoryQuizApp/' },
-              { title: 'L6 晚清的社會文化變遷', link: '#' },
-            ]
-          },
-          {
-            id: 'geography',
-            title: '地理',
-            color: 'bg-green-100',
-            borderColor: 'border-green-300',
-            icon: <Icons.Map />,
-            rotate: 'rotate-2',
-            simpleList: [
-              { title: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/MyQuizApp/' },
-              { title: 'L6 東北亞的經濟發展', link: '#' },
-            ]
-          },
-          {
-            id: 'civics',
-            title: '公民',
-            color: 'bg-purple-100',
-            borderColor: 'border-purple-300',
-            icon: <Icons.Landmark />,
-            rotate: '-rotate-1',
-            simpleList: [
-              { title: 'L5 我國的地方政府', link: '#' },
-              { title: 'L6 民主社會的政治參與及投票', link: '#' },
-            ]
-          },
+        <!-- ================= 國文區塊 ================= -->
+        
+        <!-- 國文：課本與成語 -->
+        <div class="relative group">
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 tape z-10"></div>
+            <div class="hand-drawn-box bg-white h-full overflow-hidden flex flex-col">
+                <div class="bg-crayon-pink p-4 border-b-2 border-black">
+                    <h2 class="text-3xl text-center text-white drop-shadow-md">📖 國文 - 課本 & 成語</h2>
+                </div>
+                <div class="p-6 notebook-lines flex-grow overflow-y-auto max-h-[600px]">
+                    
+                    <h3 class="text-xl font-bold text-pink-500 mb-2 mt-2">📌 第3冊課文題庫</h3>
+                    <ul class="list-none space-y-1 mb-6 font-bold text-gray-700">
+                        <li><a href="https://nicktsai88.github.io/Chinese3-L7/" target="_blank">L7 張釋之執法</a></li>
+                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">L8 尋找失落的水源</a></li>
+                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">L9一棵開花的樹</a></li>
+                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">L10 畫的哀傷</a></li>
+                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">選文三 安藤忠雄</a></li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-pink-500 mb-2">📌 成語大師</h3>
+                    <ul class="list-none space-y-1 mb-6 font-bold text-gray-700">
+                        <li><a href="https://nicktsai88.github.io/ChineseIdiom1/" target="_blank">第一回-國二上張釋之執法 (120個成語)</a></li>
+                        <li class="opacity-50 text-sm font-normal">第二回</li>
+                        <li class="opacity-50 text-sm font-normal">第三回</li>
+                        <li class="opacity-50 text-sm font-normal">第四回</li>
+                        <li class="opacity-50 text-sm font-normal">第五回</li>
+                    </ul>
+
+                     <h3 class="text-xl font-bold text-pink-500 mb-2">📌 字音字形練習</h3>
+                     <ul class="list-none space-y-1 text-sm font-bold text-gray-700 opacity-60">
+                        <li>第一回</li>
+                        <li>第二回</li>
+                        <li>第三回</li>
+                        <li>第四回</li>
+                        <li>第五回</li>
+                     </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 國文：吳敏男文言文 -->
+        <div class="relative group md:col-span-2 lg:col-span-1 row-span-2">
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 tape z-10 bg-yellow-200/50"></div>
+            <div class="hand-drawn-box bg-paper-yellow h-full overflow-hidden flex flex-col">
+                <div class="bg-crayon-orange p-4 border-b-2 border-black">
+                    <h2 class="text-3xl text-center text-gray-800 drop-shadow-md">📜 吳敏男 - 第一輯上冊</h2>
+                </div>
+                <div class="p-4 overflow-y-auto max-h-[800px]" id="wu-classical-list">
+                    <!-- JS 生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 國文：文言文推算驗 -->
+        <div class="relative group md:col-span-2 lg:col-span-1 row-span-2">
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 tape z-10 bg-green-200/50"></div>
+            <div class="hand-drawn-box bg-white h-full overflow-hidden flex flex-col">
+                <div class="bg-crayon-green p-4 border-b-2 border-black">
+                    <h2 class="text-3xl text-center text-white drop-shadow-md">🧠 文言文推算驗</h2>
+                </div>
+                <div class="p-4 overflow-y-auto max-h-[800px] notebook-lines" id="push-classical-list">
+                    <!-- JS 生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 其他科目 ================= -->
+
+        <!-- 英文 -->
+        <div class="relative group">
+            <div class="absolute -top-3 right-10 w-24 h-8 tape z-10 rotate-3"></div>
+            <div class="hand-drawn-box bg-blue-50 h-full flex flex-col">
+                <div class="bg-crayon-blue p-4 border-b-2 border-black">
+                    <h2 class="text-3xl text-center text-white font-english">ABC English (Book 3)</h2>
+                </div>
+                <div class="p-6 notebook-lines flex-grow">
+                    <ul class="list-disc pl-5 space-y-2 font-english font-bold text-lg">
+                        <li><a href="#" class="hover:text-blue-500">L5 How Long Will We Stay in Bangkok?</a></li>
+                        <li><a href="#" class="hover:text-blue-500">L6 How Do We Get to Joe's House?</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 歷史 -->
+        <div class="relative group">
+            <div class="absolute -top-3 left-10 w-24 h-8 tape z-10 -rotate-2"></div>
+            <div class="hand-drawn-box bg-orange-50 h-full flex flex-col">
+                <div class="bg-orange-400 p-4 border-b-2 border-black">
+                    <h2 class="text-3xl text-center text-white">🏰 歷史 (第3冊)</h2>
+                </div>
+                <div class="p-6 notebook-lines flex-grow">
+                    <ul class="list-disc pl-5 space-y-2 font-bold text-gray-700">
+                        <li>
+                            <a href="https://nicktsai88.github.io/HistoryQuizApp/" target="_blank">
+                                L5 西方衝擊下的晚清變革
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://nicktsai88.github.io/HistoryQuizApp/" target="_blank">
+                                L6 晚清的社會文化變遷
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地理 -->
+        <div class="relative group">
+            <div class="absolute -top-3 right-1/3 w-24 h-8 tape z-10"></div>
+            <div class="hand-drawn-box bg-green-50 h-full flex flex-col">
+                <div class="bg-green-500 p-4 border-b-2 border-black">
+                    <h2 class="text-3xl text-center text-white">🌏 地理 (第3冊)</h2>
+                </div>
+                <div class="p-6 notebook-lines flex-grow">
+                    <ul class="list-disc pl-5 space-y-2 font-bold text-gray-700">
+                        <li>
+                            <a href="https://nicktsai88.github.io/MyQuizApp/" target="_blank">
+                                L5 東北亞的自然環境
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://nicktsai88.github.io/MyQuizApp/" target="_blank">
+                                L6 東北亞的經濟發展
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 公民 -->
+        <div class="relative group md:col-span-2 lg:col-span-1">
+             <div class="absolute -top-3 left-10 w-24 h-8 tape z-10 rotate-1"></div>
+            <div class="hand-drawn-box bg-purple-50 h-full flex flex-col">
+                <div class="bg-purple-400 p-4 border-b-2 border-black">
+                    <h2 class="text-3xl text-center text-white">⚖️ 公民 (第3冊)</h2>
+                </div>
+                <div class="p-6 notebook-lines flex-grow">
+                    <ul class="list-disc pl-5 space-y-2 font-bold text-gray-700">
+                        <li>
+                            <a href="https://nicktsai88.github.io/Citizen3-L5/" target="_blank">
+                                L5 我國的地方政府
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="hover:text-purple-600">
+                                L6 民主社會的政治參與及投票
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center mt-12 mb-8 text-gray-500 font-hand text-sm font-bold">
+        <p>Created by Nick Tsai using GitHub Pages</p>
+        <p>Keep Learning!</p>
+    </footer>
+
+    <!-- JavaScript to Populate Long Lists -->
+    <script>
+        // --- 吳敏男系列資料 (依據 Excel 更新) ---
+        const wuData = [
+            "1<論語>孔子與弟子言志", "2<論語>論廉恥", "3<論語>暴虎馮河", "4<論語>論忠信", "5<禮記>仁哉管仲",
+            "6<論語>問一得三", "7<論語>隨問好學", "8<論語>割雞焉用牛刀", "9<禮記>苛政猛於虎", "10<孝經>開宗明義章",
+            "11<孟子>奕喻", "12<孟子>指的屈伸", "13<韓非子>鄭人買履", "14<韓非子>美躁之論", "15<韓非子>濫竽充數",
+            "16<韓非子>守株待兔", "17<韓非子>畫鬼最易", "18<韓非子>曾子殺彘", "19<韓非子>管仁曲學", "20<韓非子>不死之道",
+            "21<韓非子>管子採購", "22<韓非子>不死之藥", "23<呂氏春秋>土射藉箭", "24<呂氏春秋>亡鈇意鄰", "25<呂氏春秋>楚人求劍",
+            "26<杜甫>絕句", "27<王維>旅夜", "28<崔顥>旅人書懷", "29<孟浩然>登子崎", "30<李白>懷古詩",
+            "31<俞樾>一笑", "32<史記>中途日暮", "33<後漢書>將心比心", "34<禮記>小子識", "35<李白-短歌>唐詩",
+            "36<後漢書>慎始", "37<引經據典>列異不可忘", "38<按部就班>提神醒腦", "39<日知錄序>讀古文", "40<夢溪筆談>教育"
         ];
 
-        // --- 組件 ---
+        const wuListContainer = document.getElementById('wu-classical-list');
+        const wuBaseUrl = "https://nicktsai88.github.io/WuChineseClassical-1-2-";
 
-        function LinkItem({ title, link, small = false }) {
-          const isLinked = link && link !== '#';
-          
-          return (
-            // iPad優化：增加 py-2 提升點擊舒適度
-            <li className={`flex items-start gap-2 py-2 ${small ? 'text-base' : 'text-lg'}`}>
-              <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0"></span>
-              <a 
-                href={link} 
-                target={isLinked ? "_blank" : "_self"}
-                rel="noopener noreferrer"
-                className={`
-                  font-medium transition-colors text-left flex-1 break-words leading-relaxed tracking-wide
-                  ${isLinked 
-                    ? 'text-blue-700 hover:text-red-500 active:text-red-600 cursor-pointer' 
-                    : 'text-gray-500 cursor-default'
-                  }
-                `}
-              >
-                {title}
-                {isLinked && <Icons.ExternalLink />}
-              </a>
-            </li>
-          );
-        }
+        wuData.forEach((title, index) => {
+            const num = (index + 1).toString().padStart(3, '0');
+            // 注意：Excel 格式中吳敏男系列網址結尾無斜線
+            const link = `${wuBaseUrl}${num}`;
+            
+            const item = document.createElement('div');
+            item.className = "mb-2 pb-1 border-b border-dashed border-gray-400 hover:bg-yellow-100 transition-colors";
+            item.innerHTML = `
+                <a href="${link}" target="_blank" class="flex items-start">
+                    <span class="font-bold text-gray-700">${title}</span>
+                </a>
+            `;
+            wuListContainer.appendChild(item);
+        });
 
-        // 可折疊的子區塊 (用於古文天地等長列表)
-        function SubSection({ label, items }) {
-            const [isOpen, setIsOpen] = useState(false);
+        // --- 文言文推算驗資料 (依據 Excel 更新) ---
+        const pushData = [
+            "1導水激揚", "2舟", "3白智子承諭謝過", "4借機諷諫", "5子罕辭玉",
+            "6晏子使楚", "7肉湯可充飢", "8佳物", "9山雞起舞", "10<論語>鄉-神人處事",
+            "11各司其職", "12隨人護澤", "13臨難不苟免", "14三家涉河", "15漢縣管中存倉弟糧第一書",
+            "16私產官屬", "17易軾求全", "18社鼠", "19六一居士傳", "20牡丹與貓眼",
+            "21<幽夢影>選:生活逸趣", "22尹綽與赦厥", "23扁鵲投石", "24治國猶栽樹", "25痴人說夢",
+            "26黠鼠賦", "27貓號", "28王積薪聞棋", "29罵鴨", "30不氣歌"
+        ];
 
-            return (
-                // iPad優化：增加 margin 和 padding
-                <div className="ml-2 border-l-4 border-gray-200 pl-3 my-2">
-                    <button 
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="flex items-center gap-2 w-full text-left font-bold text-gray-700 hover:text-blue-600 active:scale-95 transition-all py-3 rounded-lg hover:bg-black/5"
-                    >
-                        {isOpen ? <Icons.ChevronDown /> : <Icons.ChevronRight />}
-                        <span className="text-lg tracking-wide">{label}</span>
-                        <span className="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                            {items.length}
-                        </span>
-                    </button>
-                    
-                    {isOpen && (
-                        <div className="mt-2 max-h-64 overflow-y-auto custom-scrollbar pr-2">
-                            <ul className="space-y-2 pb-2">
-                                {items.map((subItem, si) => (
-                                    <li key={si} className="text-base text-gray-600 pl-1 flex items-start gap-3 py-1">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2.5 flex-shrink-0"></span>
-                                        <span className="cursor-default hover:text-gray-800 transition-colors leading-relaxed tracking-wide">{subItem}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
-            );
-        }
+        const pushListContainer = document.getElementById('push-classical-list');
+        const pushBaseUrl = "https://nicktsai88.github.io/PushChineseClassical-";
 
-        function SubjectCard({ subject }) {
-          return (
-            <div 
-              className={`relative group transition-all duration-300 ${subject.rotate} md:hover:scale-105 hover:rotate-0`}
-            >
-              {/* 膠帶效果 */}
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-10 bg-yellow-200/50 tape z-10 rotate-1"></div>
-
-              <div className={`
-                ${subject.color} 
-                border-4 ${subject.borderColor} border-dashed 
-                rounded-2xl shadow-lg p-6 h-full flex flex-col
-                relative overflow-hidden
-              `}>
-                {/* 卡片標題 */}
-                <div className="flex items-center justify-between mb-6 border-b-2 border-black/10 pb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-white p-3 rounded-full border-2 border-gray-300 shadow-sm text-gray-700">
-                      {subject.icon}
-                    </div>
-                    <h2 className="font-hand text-3xl font-black text-gray-800 tracking-wider">{subject.title}</h2>
-                  </div>
-                  <Icons.Smile />
-                </div>
-
-                {/* 內容區域 */}
-                <div className="flex-1 space-y-6">
-                  
-                  {/* 簡單列表 */}
-                  {subject.simpleList && (
-                    <ul className="space-y-1">
-                      {subject.simpleList.map((item, idx) => (
-                        <LinkItem key={idx} title={item.title} link={item.link} />
-                      ))}
-                    </ul>
-                  )}
-
-                  {/* 複雜分類 (國文) */}
-                  {subject.categories && (
-                    <div className="space-y-6">
-                      {subject.categories.map((cat, idx) => (
-                        <div key={idx} className="bg-white/60 rounded-xl p-4 border border-black/5 shadow-sm">
-                          <h3 className="font-hand text-xl font-bold text-gray-700 mb-3 flex items-center before:content-['•'] before:mr-2 before:text-red-400 tracking-wide">
-                            {cat.name}
-                          </h3>
-                          
-                          {cat.items && cat.items.length > 0 && (
-                            <ul className="space-y-1 ml-2">
-                              {cat.items.map((item, i) => (
-                                 <LinkItem key={i} title={item.title} link={item.link} small />
-                              ))}
-                            </ul>
-                          )}
-
-                          {cat.subSections && (
-                            <div className="mt-4 space-y-3">
-                              {cat.subSections.map((sub, sIdx) => (
-                                <SubSection key={sIdx} label={sub.label} items={sub.items} />
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-6 text-right">
-                   <span className="text-sm font-hand text-gray-500/70 font-bold tracking-widest">Study Hard!</span>
-                </div>
-              </div>
-            </div>
-          );
-        }
-
-        function App() {
-          return (
-            <div className="min-h-[100dvh] pb-24 overflow-x-hidden">
-              {/* Header */}
-              <header className="pt-12 pb-8 text-center relative">
-                <div className="inline-block relative z-10 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
-                  <div className="bg-yellow-200 absolute -inset-2 transform rotate-1 rounded-xl shadow-md opacity-80"></div>
-                  <h1 className="relative font-hand text-5xl md:text-7xl font-black text-gray-800 px-8 py-4 border-4 border-dashed border-gray-600 rounded-xl bg-white tracking-wider">
-                    <span className="text-red-500">快樂</span>學習目錄
-                    <Icons.Pencil />
-                  </h1>
-                </div>
-                <p className="mt-6 text-gray-600 font-hand text-2xl font-bold tracking-wide">點擊下方卡片開始學習吧！</p>
-              </header>
-
-              {/* Main Grid: iPad直向雙欄，橫向三欄 */}
-              <main className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-4">
-                {subjectsData.map((subject) => (
-                  <SubjectCard key={subject.id} subject={subject} />
-                ))}
-              </main>
-
-              {/* Footer */}
-              <footer className="text-center mt-20 text-gray-400 font-hand text-base tracking-widest">
-                <p>© 2025 學習資源小站 | Keep Learning!</p>
-              </footer>
-            </div>
-          );
-        }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        pushData.forEach((title, index) => {
+            const num = (index + 1).toString().padStart(3, '0');
+            // 注意：Excel 格式中推算驗系列網址結尾有斜線
+            const link = `${pushBaseUrl}${num}/`;
+            
+            const item = document.createElement('div');
+            item.className = "mb-2 pb-1 border-b border-dashed border-gray-300 hover:bg-green-50 transition-colors";
+            item.innerHTML = `
+                <a href="${link}" target="_blank" class="flex items-start">
+                    <span class="font-bold text-gray-700">${title}</span>
+                </a>
+            `;
+            pushListContainer.appendChild(item);
+        });
     </script>
 </body>
 </html>
