@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nick's 學習筆記目錄</title>
-    <!-- Google Fonts -->
+    <title>我的學習百寶箱</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts (可愛圓體) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;700&family=Yomogi&family=ZCOOL+KuaiLe&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        'paper-yellow': '#fdf6e3',
-                        'pencil-gray': '#333333',
-                        'crayon-blue': '#a8d8ea',
-                        'crayon-pink': '#fcbad3',
-                        'crayon-green': '#aa96da',
-                        'crayon-orange': '#fce38a',
-                    },
                     fontFamily: {
-                        'hand': ['"ZCOOL KuaiLe"', '"Yomogi"', '"Zen Maru Gothic"', '"Mali"', '"Microsoft JhengHei"', 'sans-serif'],
+                        sans: ['"Zen Maru Gothic"', 'sans-serif'],
+                    },
+                    colors: {
+                        paper: '#fdfbf7',
+                        'crayon-red': '#ff8ba7',
+                        'crayon-blue': '#8ecae6',
+                        'crayon-orange': '#ffb703',
+                        'crayon-green': '#a7c957',
+                        'crayon-purple': '#cdb4db',
                     }
                 }
             }
@@ -32,308 +33,463 @@
     <style>
         body {
             background-color: #f0f4f8;
-            background-image: radial-gradient(#dbe2e8 1px, transparent 1px);
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
             background-size: 20px 20px;
-            font-family: 'ZCOOL KuaiLe', 'Yomogi', 'Zen Maru Gothic', 'Microsoft JhengHei', sans-serif;
-            letter-spacing: 0.05em;
         }
-
+        
         .hand-drawn-box {
-            border: 3px solid #333;
+            border: 3px solid #4b5563;
             border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
         .hand-drawn-box:hover {
-            transform: translateY(-3px) rotate(-1deg);
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+            box-shadow: 7px 7px 0px rgba(0,0,0,0.15);
         }
 
-        .notebook-lines {
-            background-color: #fff;
-            background-image: repeating-linear-gradient(transparent, transparent 31px, #e5e7eb 31px, #e5e7eb 32px);
-            line-height: 32px;
-            padding-top: 2px;
+        .sticker-title {
+            position: relative;
+            display: inline-block;
+            background: #fff;
+            padding: 0.5rem 1.5rem;
+            border: 2px dashed #4b5563;
+            transform: rotate(-2deg);
+            margin-bottom: 1rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.05);
         }
 
+        .category-header {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-header::before {
+            content: '★';
+            margin-right: 8px;
+            color: #fbbf24;
+        }
+
+        /* 卷軸美化 */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .link-item {
+            display: block;
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            color: #374151;
+            border-bottom: 1px dashed transparent;
+        }
+        
+        .link-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .link-item.has-link {
+            color: #2563eb;
+            border-bottom: 1px dashed #93c5fd;
+        }
+        
+        .link-item.has-link:hover {
+            background-color: #eff6ff;
+        }
+
+        /* 標籤貼紙效果 */
+        .subject-tag {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            padding: 5px 15px;
+            color: white;
+            font-weight: bold;
+            transform: rotate(3deg);
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        /* 膠帶效果 */
         .tape {
             background-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            backdrop-filter: blur(2px);
-            transform: rotate(-2deg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 100px;
+            height: 30px;
+            z-index: 5;
             border-left: 1px dashed rgba(0,0,0,0.1);
             border-right: 1px dashed rgba(0,0,0,0.1);
         }
-
-        a {
-            text-decoration: none;
-            color: #4b5563;
-            display: block;
-            transition: color 0.2s;
-        }
-        a:hover {
-            color: #d946ef;
-            font-weight: bold;
-            text-decoration: underline;
-            text-decoration-style: wavy;
-        }
-
-        .font-english {
-            font-family: 'Mali', cursive;
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
     </style>
 </head>
-<body class="p-4 md:p-8 min-h-screen text-pencil-gray">
+<body class="text-gray-700 pb-20">
 
     <!-- Header -->
-    <header class="max-w-6xl mx-auto mb-12 text-center relative">
-        <h1 class="text-5xl md:text-7xl mb-4 text-gray-800 drop-shadow-md rotate-[-2deg] inline-block bg-yellow-100 px-8 py-4 hand-drawn-box">
-            Nick's 學習目錄 ✏️
+    <header class="text-center pt-12 pb-8 px-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 tracking-wider" style="text-shadow: 2px 2px 0px white;">
+            📚 學習目錄百寶箱
         </h1>
-        <p class="text-xl mt-4 text-gray-600 font-hand font-bold">快樂學習 · 知識積累 · 手繪筆記</p>
+        <p class="text-gray-500 text-lg mb-8">快樂學習，天天向上！</p>
+        
+        <!-- Search Bar -->
+        <div class="max-w-md mx-auto relative group">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400 group-focus-within:text-crayon-red transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <input type="text" id="searchInput" placeholder="搜尋課文、成語或作者..." 
+                class="block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-full leading-5 bg-white placeholder-gray-400 focus:outline-none focus:border-crayon-red focus:ring-2 focus:ring-crayon-red focus:ring-opacity-50 transition-all shadow-sm">
+        </div>
     </header>
 
+    <!-- Navigation Filters -->
+    <div class="flex flex-wrap justify-center gap-3 mb-10 px-4" id="filters">
+        <button class="filter-btn active px-4 py-2 rounded-full border-2 border-gray-400 bg-white hover:bg-gray-100 transition-colors font-bold" data-subject="all">全部顯示</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-red-300 bg-red-50 hover:bg-red-100 text-red-600 transition-colors font-bold" data-subject="chinese">國文</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors font-bold" data-subject="english">英文</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-orange-300 bg-orange-50 hover:bg-orange-100 text-orange-600 transition-colors font-bold" data-subject="history">歷史</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-green-300 bg-green-50 hover:bg-green-100 text-green-600 transition-colors font-bold" data-subject="geography">地理</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-purple-300 bg-purple-50 hover:bg-purple-100 text-purple-600 transition-colors font-bold" data-subject="civics">公民</button>
+    </div>
+
     <!-- Main Content Grid -->
-    <main class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-        <!-- ================= 國文區塊 ================= -->
+    <main class="container mx-auto px-4">
+        <div id="content-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+            <!-- Content will be injected here by JavaScript -->
+        </div>
         
-        <!-- 國文：課本與成語 -->
-        <div class="relative group">
-            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 tape z-10"></div>
-            <div class="hand-drawn-box bg-white h-full overflow-hidden flex flex-col">
-                <div class="bg-crayon-pink p-4 border-b-2 border-black">
-                    <h2 class="text-3xl text-center text-white drop-shadow-md">📖 國文 - 課本 & 成語</h2>
-                </div>
-                <div class="p-6 notebook-lines flex-grow overflow-y-auto max-h-[600px]">
-                    
-                    <h3 class="text-xl font-bold text-pink-500 mb-2 mt-2">📌 第3冊課文題庫</h3>
-                    <ul class="list-none space-y-1 mb-6 font-bold text-gray-700">
-                        <li><a href="https://nicktsai88.github.io/Chinese3-L7/" target="_blank">L7 張釋之執法</a></li>
-                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">L8 尋找失落的水源</a></li>
-                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">L9一棵開花的樹</a></li>
-                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">L10 畫的哀傷</a></li>
-                        <li><a href="#" class="cursor-not-allowed opacity-50 font-normal">選文三 安藤忠雄</a></li>
-                    </ul>
-
-                    <h3 class="text-xl font-bold text-pink-500 mb-2">📌 成語大師</h3>
-                    <ul class="list-none space-y-1 mb-6 font-bold text-gray-700">
-                        <li><a href="https://nicktsai88.github.io/ChineseIdiom1/" target="_blank">第一回-國二上張釋之執法 (120個成語)</a></li>
-                        <li class="opacity-50 text-sm font-normal">第二回</li>
-                        <li class="opacity-50 text-sm font-normal">第三回</li>
-                        <li class="opacity-50 text-sm font-normal">第四回</li>
-                        <li class="opacity-50 text-sm font-normal">第五回</li>
-                    </ul>
-
-                     <h3 class="text-xl font-bold text-pink-500 mb-2">📌 字音字形練習</h3>
-                     <ul class="list-none space-y-1 text-sm font-bold text-gray-700 opacity-60">
-                        <li>第一回</li>
-                        <li>第二回</li>
-                        <li>第三回</li>
-                        <li>第四回</li>
-                        <li>第五回</li>
-                     </ul>
-                </div>
-            </div>
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-20">
+            <div class="text-6xl mb-4">🙈</div>
+            <p class="text-xl text-gray-500">找不到相關內容，換個關鍵字試試看？</p>
         </div>
-
-        <!-- 國文：吳敏男文言文 -->
-        <div class="relative group md:col-span-2 lg:col-span-1 row-span-2">
-            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 tape z-10 bg-yellow-200/50"></div>
-            <div class="hand-drawn-box bg-paper-yellow h-full overflow-hidden flex flex-col">
-                <div class="bg-crayon-orange p-4 border-b-2 border-black">
-                    <h2 class="text-3xl text-center text-gray-800 drop-shadow-md">📜 吳敏男 - 第一輯上冊</h2>
-                </div>
-                <div class="p-4 overflow-y-auto max-h-[800px]" id="wu-classical-list">
-                    <!-- JS 生成 -->
-                </div>
-            </div>
-        </div>
-
-        <!-- 國文：文言文推算驗 -->
-        <div class="relative group md:col-span-2 lg:col-span-1 row-span-2">
-            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 tape z-10 bg-green-200/50"></div>
-            <div class="hand-drawn-box bg-white h-full overflow-hidden flex flex-col">
-                <div class="bg-crayon-green p-4 border-b-2 border-black">
-                    <h2 class="text-3xl text-center text-white drop-shadow-md">🧠 文言文推算驗</h2>
-                </div>
-                <div class="p-4 overflow-y-auto max-h-[800px] notebook-lines" id="push-classical-list">
-                    <!-- JS 生成 -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= 其他科目 ================= -->
-
-        <!-- 英文 -->
-        <div class="relative group">
-            <div class="absolute -top-3 right-10 w-24 h-8 tape z-10 rotate-3"></div>
-            <div class="hand-drawn-box bg-blue-50 h-full flex flex-col">
-                <div class="bg-crayon-blue p-4 border-b-2 border-black">
-                    <h2 class="text-3xl text-center text-white font-english">ABC English (Book 3)</h2>
-                </div>
-                <div class="p-6 notebook-lines flex-grow">
-                    <ul class="list-disc pl-5 space-y-2 font-english font-bold text-lg">
-                        <li><a href="#" class="hover:text-blue-500">L5 How Long Will We Stay in Bangkok?</a></li>
-                        <li><a href="#" class="hover:text-blue-500">L6 How Do We Get to Joe's House?</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- 歷史 -->
-        <div class="relative group">
-            <div class="absolute -top-3 left-10 w-24 h-8 tape z-10 -rotate-2"></div>
-            <div class="hand-drawn-box bg-orange-50 h-full flex flex-col">
-                <div class="bg-orange-400 p-4 border-b-2 border-black">
-                    <h2 class="text-3xl text-center text-white">🏰 歷史 (第3冊)</h2>
-                </div>
-                <div class="p-6 notebook-lines flex-grow">
-                    <ul class="list-disc pl-5 space-y-2 font-bold text-gray-700">
-                        <li>
-                            <a href="https://nicktsai88.github.io/HistoryQuizApp/" target="_blank">
-                                L5 西方衝擊下的晚清變革
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://nicktsai88.github.io/HistoryQuizApp/" target="_blank">
-                                L6 晚清的社會文化變遷
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- 地理 -->
-        <div class="relative group">
-            <div class="absolute -top-3 right-1/3 w-24 h-8 tape z-10"></div>
-            <div class="hand-drawn-box bg-green-50 h-full flex flex-col">
-                <div class="bg-green-500 p-4 border-b-2 border-black">
-                    <h2 class="text-3xl text-center text-white">🌏 地理 (第3冊)</h2>
-                </div>
-                <div class="p-6 notebook-lines flex-grow">
-                    <ul class="list-disc pl-5 space-y-2 font-bold text-gray-700">
-                        <li>
-                            <a href="https://nicktsai88.github.io/MyQuizApp/" target="_blank">
-                                L5 東北亞的自然環境
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://nicktsai88.github.io/MyQuizApp/" target="_blank">
-                                L6 東北亞的經濟發展
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- 公民 -->
-        <div class="relative group md:col-span-2 lg:col-span-1">
-             <div class="absolute -top-3 left-10 w-24 h-8 tape z-10 rotate-1"></div>
-            <div class="hand-drawn-box bg-purple-50 h-full flex flex-col">
-                <div class="bg-purple-400 p-4 border-b-2 border-black">
-                    <h2 class="text-3xl text-center text-white">⚖️ 公民 (第3冊)</h2>
-                </div>
-                <div class="p-6 notebook-lines flex-grow">
-                    <ul class="list-disc pl-5 space-y-2 font-bold text-gray-700">
-                        <li>
-                            <a href="https://nicktsai88.github.io/Citizen3-L5/" target="_blank">
-                                L5 我國的地方政府
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="hover:text-purple-600">
-                                L6 民主社會的政治參與及投票
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
     </main>
 
-    <footer class="text-center mt-12 mb-8 text-gray-500 font-hand text-sm font-bold">
-        <p>Created by Nick Tsai using GitHub Pages</p>
-        <p>Keep Learning!</p>
+    <footer class="text-center mt-20 text-gray-400 text-sm">
+        <p>Made with ❤️ for Learning</p>
     </footer>
 
-    <!-- JavaScript to Populate Long Lists -->
     <script>
-        // --- 吳敏男系列資料 (依據 Excel 更新) ---
-        const wuData = [
-            "1<論語>孔子與弟子言志", "2<論語>論廉恥", "3<論語>暴虎馮河", "4<論語>論忠信", "5<禮記>仁哉管仲",
-            "6<論語>問一得三", "7<論語>隨問好學", "8<論語>割雞焉用牛刀", "9<禮記>苛政猛於虎", "10<孝經>開宗明義章",
-            "11<孟子>奕喻", "12<孟子>指的屈伸", "13<韓非子>鄭人買履", "14<韓非子>美躁之論", "15<韓非子>濫竽充數",
-            "16<韓非子>守株待兔", "17<韓非子>畫鬼最易", "18<韓非子>曾子殺彘", "19<韓非子>管仁曲學", "20<韓非子>不死之道",
-            "21<韓非子>管子採購", "22<韓非子>不死之藥", "23<呂氏春秋>土射藉箭", "24<呂氏春秋>亡鈇意鄰", "25<呂氏春秋>楚人求劍",
-            "26<杜甫>絕句", "27<王維>旅夜", "28<崔顥>旅人書懷", "29<孟浩然>登子崎", "30<李白>懷古詩",
-            "31<俞樾>一笑", "32<史記>中途日暮", "33<後漢書>將心比心", "34<禮記>小子識", "35<李白-短歌>唐詩",
-            "36<後漢書>慎始", "37<引經據典>列異不可忘", "38<按部就班>提神醒腦", "39<日知錄序>讀古文", "40<夢溪筆談>教育"
+        // 資料庫：所有資料都在這裡
+        const data = [
+            {
+                subject: 'chinese',
+                subjectName: '國文',
+                colorClass: 'bg-red-50',
+                borderClass: 'border-red-200',
+                tagColor: '#ff8ba7',
+                categories: [
+                    {
+                        name: '第3冊課文題庫',
+                        items: [
+                            { text: 'L7 張釋之執法', link: 'https://nicktsai88.github.io/Chinese3-L7/' },
+                            { text: 'L8 尋找失落的水源', link: '' },
+                            { text: 'L9 一棵開花的樹', link: '' },
+                            { text: 'L10 畫的哀傷', link: '' },
+                            { text: '選文三 安藤忠雄', link: '' }
+                        ]
+                    },
+                    {
+                        name: '成語大師',
+                        items: [
+                            { text: '第一回-國二上張釋之執法 (120個成語)', link: 'https://nicktsai88.github.io/ChineseIdiom1/' },
+                            { text: '第二回', link: '' },
+                            { text: '第三回', link: '' },
+                            { text: '第四回', link: '' },
+                            { text: '第五回-三國典故 (120個成語)', link: 'https://nicktsai88.github.io/ChineseIdiom2/' }
+                        ]
+                    },
+                    {
+                        name: '字音字形練習',
+                        items: [
+                            { text: '第一回', link: '' },
+                            { text: '第二回', link: '' },
+                            { text: '第三回', link: '' },
+                            { text: '第四回', link: '' },
+                            { text: '第五回', link: '' }
+                        ]
+                    },
+                    {
+                        name: '吳敏男-第一輯上冊',
+                        isLongList: true, // 標記為長清單，UI會做卷軸處理
+                        items: [
+                            { text: '1<論語>孔子與弟子言志', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-001' },
+                            { text: '2<論語>論廉恥', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-002' },
+                            { text: '3<論語>暴虎馮河', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-003' },
+                            { text: '4<論語>論忠信', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-004' },
+                            { text: '5<禮記>仁哉管仲', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-005' },
+                            { text: '6<論語>問一得三', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-006' },
+                            { text: '7<論語>顏回好學', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-007' },
+                            { text: '8<論語>割雞焉用牛刀', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-008' },
+                            { text: '9<禮記>苛政猛於虎', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-009' },
+                            { text: '10<孝經>開宗明義章', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-010' },
+                            { text: '11<孟子>奕喻', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-011' },
+                            { text: '12<孟子>揠苗助長', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-012' },
+                            { text: '13<韓非子>鄭人買履', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-013' },
+                            { text: '14<韓非子>美醜之論', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-014' },
+                            { text: '15<韓非子>濫竽充數', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-015' },
+                            { text: '16<韓非子>守株待兔', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-016' },
+                            { text: '17<韓非子>畫鬼最易', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-017' },
+                            { text: '18<韓非子>晉文公攻原得衛', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-018' },
+                            { text: '19<韓非子>唇亡齒寒', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-019' },
+                            { text: '20<韓非子>不死之道', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-020' },
+                            { text: '21<韓非子>曾子殺彘', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-021' },
+                            { text: '22<韓非子>不死之藥', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-022' },
+                            { text: '23<呂氏春秋>齊王射箭', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-023' },
+                            { text: '24<呂氏春秋>亡鈇意鄰', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-024' },
+                            { text: '25<呂氏春秋>刻舟求劍', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-025' },
+                            { text: '26<杜甫>絕句', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-026' },
+                            { text: '27<王維>雜詩', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-027' },
+                            { text: '28<岑參>逢入京使', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-028' },
+                            { text: '29<孟郊>遊子吟', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-029' },
+                            { text: '30<李紳>憫農詩', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-030' },
+                            { text: '31<俞樾>一笑', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-031' },
+                            { text: '32<史記>毛遂自薦', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-032' },
+                            { text: '33<世說新語>將心比心', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-033' },
+                            { text: '34<韓非子>彌子瑕', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-034' },
+                            { text: '35<李白-張繼>唐詩', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-035' },
+                            { text: '36<世說新語>慎始', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-036' },
+                            { text: '37<引列異傳>列異不可惑', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-037' },
+                            { text: '38<搜神後記>搜神靈犬', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-038' },
+                            { text: '39<日知錄序>顧炎武', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-039' },
+                            { text: '40<夢溪筆談>狄青', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-040' }
+                        ]
+                    },
+                    {
+                        name: '文言文推與敲',
+                        isLongList: true,
+                        items: [
+                            { text: '1 覆水難收', link: 'https://nicktsai88.github.io/PushChineseClassical-001' },
+                            { text: '2 鳥', link: 'https://nicktsai88.github.io/PushChineseClassical-002' },
+                            { text: '3 白娘子永鎮雷峰塔', link: 'https://nicktsai88.github.io/PushChineseClassical-003' },
+                            { text: '4 懷橘遺親', link: 'https://nicktsai88.github.io/PushChineseClassical-004' },
+                            { text: '5 子罕辭寶', link: 'https://nicktsai88.github.io/PushChineseClassical-005' },
+                            { text: '6 晏子使楚', link: 'https://nicktsai88.github.io/PushChineseClassical-006' },
+                            { text: '7 肉脯可充饑', link: 'https://nicktsai88.github.io/PushChineseClassical-007' },
+                            { text: '8 恍惚', link: 'https://nicktsai88.github.io/PushChineseClassical-008' },
+                            { text: '9 山雞獻楚', link: 'https://nicktsai88.github.io/PushChineseClassical-009' },
+                            { text: '10 <論語>選-待人處事', link: 'https://nicktsai88.github.io/PushChineseClassical-010' },
+                            { text: '11 各司其職', link: 'https://nicktsai88.github.io/PushChineseClassical-011' },
+                            { text: '12 趙人鼠患', link: 'https://nicktsai88.github.io/PushChineseClassical-012' },
+                            { text: '13 晦翁語錄', link: 'https://nicktsai88.github.io/PushChineseClassical-013' },
+                            { text: '14 三豕涉河', link: 'https://nicktsai88.github.io/PushChineseClassical-014' },
+                            { text: '15 濰縣署中寄舍弟墨第一書', link: 'https://nicktsai88.github.io/PushChineseClassical-015' },
+                            { text: '16 孔雀愛尾', link: 'https://nicktsai88.github.io/PushChineseClassical-016' },
+                            { text: '17 烏賊求全', link: 'https://nicktsai88.github.io/PushChineseClassical-017' },
+                            { text: '18 地理', link: 'https://nicktsai88.github.io/PushChineseClassical-018' },
+                            { text: '19 六一居士傳', link: 'https://nicktsai88.github.io/PushChineseClassical-019' },
+                            { text: '20 牡丹與貓眼', link: 'https://nicktsai88.github.io/PushChineseClassical-020' },
+                            { text: '21 <幽夢影>選:生活逸趣', link: 'https://nicktsai88.github.io/PushChineseClassical-021' },
+                            { text: '22 尹綽與赦厥', link: 'https://nicktsai88.github.io/PushChineseClassical-022' },
+                            { text: '23 扁鵲投石', link: 'https://nicktsai88.github.io/PushChineseClassical-023' },
+                            { text: '24 治國猶栽樹', link: 'https://nicktsai88.github.io/PushChineseClassical-024' },
+                            { text: '25 痴人說夢', link: 'https://nicktsai88.github.io/PushChineseClassical-025' },
+                            { text: '26 黠鼠賦', link: 'https://nicktsai88.github.io/PushChineseClassical-026' },
+                            { text: '27 貓號', link: 'https://nicktsai88.github.io/PushChineseClassical-027' },
+                            { text: '28 王積薪聞棋', link: 'https://nicktsai88.github.io/PushChineseClassical-028' },
+                            { text: '29 罵鴨', link: 'https://nicktsai88.github.io/PushChineseClassical-029' },
+                            { text: '30 不氣歌', link: 'https://nicktsai88.github.io/PushChineseClassical-030' },
+                            { text: '31 齊人攫金', link: 'https://nicktsai88.github.io/PushChineseClassical-031' },
+                            { text: '32 某甲', link: 'https://nicktsai88.github.io/PushChineseClassical-032' },
+                            { text: '33 <菜根譚>選: 待人處事', link: 'https://nicktsai88.github.io/PushChineseClassical-033' }
+                        ]
+                    }
+                ]
+            },
+            {
+                subject: 'english',
+                subjectName: '英文',
+                colorClass: 'bg-blue-50',
+                borderClass: 'border-blue-200',
+                tagColor: '#8ecae6',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 How Long Will We Stay in Bangkok?', link: '' },
+                            { text: "L6 How Do We Get to Joe's House?", link: '' }
+                        ]
+                    }
+                ]
+            },
+            {
+                subject: 'history',
+                subjectName: '歷史',
+                colorClass: 'bg-orange-50',
+                borderClass: 'border-orange-200',
+                tagColor: '#ffb703',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/HistoryQuizApp/' },
+                            { text: 'L6 晚清的社會文化變遷', link: '' }
+                        ]
+                    }
+                ]
+            },
+            {
+                subject: 'geography',
+                subjectName: '地理',
+                colorClass: 'bg-green-50',
+                borderClass: 'border-green-200',
+                tagColor: '#a7c957',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/MyQuizApp/' },
+                            { text: 'L6 東北亞的經濟發展', link: '' }
+                        ]
+                    }
+                ]
+            },
+            {
+                subject: 'civics',
+                subjectName: '公民',
+                colorClass: 'bg-purple-50',
+                borderClass: 'border-purple-200',
+                tagColor: '#cdb4db',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 我國的地方政府', link: 'https://nicktsai88.github.io/Citizen3-L5/' },
+                            { text: 'L6 民主社會的政治參與及投票', link: '' }
+                        ]
+                    }
+                ]
+            }
         ];
 
-        const wuListContainer = document.getElementById('wu-classical-list');
-        const wuBaseUrl = "https://nicktsai88.github.io/WuChineseClassical-1-2-";
-
-        wuData.forEach((title, index) => {
-            const num = (index + 1).toString().padStart(3, '0');
-            // 注意：Excel 格式中吳敏男系列網址結尾無斜線
-            const link = `${wuBaseUrl}${num}`;
+        // 渲染函數
+        function renderContent(filterSubject = 'all', searchQuery = '') {
+            const container = document.getElementById('content-grid');
+            const noResults = document.getElementById('no-results');
+            container.innerHTML = '';
             
-            const item = document.createElement('div');
-            item.className = "mb-2 pb-1 border-b border-dashed border-gray-400 hover:bg-yellow-100 transition-colors";
-            item.innerHTML = `
-                <a href="${link}" target="_blank" class="flex items-start">
-                    <span class="font-bold text-gray-700">${title}</span>
-                </a>
-            `;
-            wuListContainer.appendChild(item);
+            let hasResults = false;
+
+            data.forEach(sub => {
+                // 篩選科目
+                if (filterSubject !== 'all' && sub.subject !== filterSubject) return;
+
+                // 建立該科目的內容
+                let categoriesHTML = '';
+                let matchCountInSubject = 0;
+
+                sub.categories.forEach(cat => {
+                    // 篩選內容（搜尋功能）
+                    const filteredItems = cat.items.filter(item => 
+                        item.text.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        cat.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+
+                    if (filteredItems.length > 0) {
+                        matchCountInSubject += filteredItems.length;
+                        const scrollClass = cat.isLongList ? 'max-h-64 overflow-y-auto custom-scroll pr-2' : '';
+                        
+                        const itemsHTML = filteredItems.map(item => {
+                            if (item.link && item.link.trim() !== '') {
+                                return `<a href="${item.link}" target="_blank" class="link-item has-link group flex items-start">
+                                            <span class="mr-2 transform group-hover:scale-110 transition-transform">🔗</span>
+                                            <span>${item.text}</span>
+                                        </a>`;
+                            } else {
+                                return `<div class="link-item flex items-start">
+                                            <span class="mr-2 text-gray-400">📝</span>
+                                            <span>${item.text}</span>
+                                        </div>`;
+                            }
+                        }).join('');
+
+                        categoriesHTML += `
+                            <div class="mb-6 last:mb-0">
+                                <h3 class="category-header text-lg">${cat.name}</h3>
+                                <div class="${scrollClass}">
+                                    ${itemsHTML}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                if (categoriesHTML !== '') {
+                    hasResults = true;
+                    const card = document.createElement('div');
+                    card.className = `hand-drawn-box ${sub.colorClass} p-6 relative`;
+                    card.innerHTML = `
+                        <div class="tape"></div>
+                        <div class="subject-tag" style="background-color: ${sub.tagColor}; border-radius: 4px;">${sub.subjectName}</div>
+                        <div class="mt-4">
+                            ${categoriesHTML}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+
+            if (!hasResults) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // 初始化
+        renderContent();
+
+        // 事件監聽 - 搜尋
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeBtn = document.querySelector('.filter-btn.active');
+            const subject = activeBtn ? activeBtn.dataset.subject : 'all';
+            renderContent(subject, e.target.value);
         });
 
-        // --- 文言文推算驗資料 (依據 Excel 更新) ---
-        const pushData = [
-            "1導水激揚", "2舟", "3白智子承諭謝過", "4借機諷諫", "5子罕辭玉",
-            "6晏子使楚", "7肉湯可充飢", "8佳物", "9山雞起舞", "10<論語>鄉-神人處事",
-            "11各司其職", "12隨人護澤", "13臨難不苟免", "14三家涉河", "15漢縣管中存倉弟糧第一書",
-            "16私產官屬", "17易軾求全", "18社鼠", "19六一居士傳", "20牡丹與貓眼",
-            "21<幽夢影>選:生活逸趣", "22尹綽與赦厥", "23扁鵲投石", "24治國猶栽樹", "25痴人說夢",
-            "26黠鼠賦", "27貓號", "28王積薪聞棋", "29罵鴨", "30不氣歌"
-        ];
-
-        const pushListContainer = document.getElementById('push-classical-list');
-        const pushBaseUrl = "https://nicktsai88.github.io/PushChineseClassical-";
-
-        pushData.forEach((title, index) => {
-            const num = (index + 1).toString().padStart(3, '0');
-            // 注意：Excel 格式中推算驗系列網址結尾有斜線
-            const link = `${pushBaseUrl}${num}/`;
-            
-            const item = document.createElement('div');
-            item.className = "mb-2 pb-1 border-b border-dashed border-gray-300 hover:bg-green-50 transition-colors";
-            item.innerHTML = `
-                <a href="${link}" target="_blank" class="flex items-start">
-                    <span class="font-bold text-gray-700">${title}</span>
-                </a>
-            `;
-            pushListContainer.appendChild(item);
+        // 事件監聽 - 分類按鈕
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // 移除其他 active
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'ring-2', 'ring-offset-2', 'ring-gray-300');
+                    // 恢復原本背景
+                });
+                
+                // 加入 active
+                e.target.classList.add('active', 'ring-2', 'ring-offset-2', 'ring-gray-300');
+                
+                const subject = e.target.dataset.subject;
+                const searchQuery = document.getElementById('searchInput').value;
+                renderContent(subject, searchQuery);
+            });
         });
+
     </script>
 </body>
 </html>
