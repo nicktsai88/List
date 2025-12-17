@@ -159,11 +159,13 @@
     <!-- Navigation Filters -->
     <div class="flex flex-wrap justify-center gap-3 mb-10 px-4" id="filters">
         <button class="filter-btn active px-4 py-2 rounded-full border-2 border-gray-400 bg-white hover:bg-gray-100 transition-colors font-bold" data-subject="all">全部顯示</button>
-        <!-- 調整順序：歷史 -> 地理 -> 公民 -> 英文 -> 國文 -->
+        <!-- 調整順序：理化 -> 英文 -> 歷史 -> 地理 -> 公民 -> 國文 -->
+        <!-- 理化按鈕改為使用 #FFE4E1 背景，並搭配玫瑰色邊框與文字 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-rose-300 bg-[#FFE4E1] hover:bg-rose-100 text-rose-600 transition-colors font-bold" data-subject="science">理化</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors font-bold" data-subject="english">英文</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-orange-300 bg-orange-50 hover:bg-orange-100 text-orange-600 transition-colors font-bold" data-subject="history">歷史</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-green-300 bg-green-50 hover:bg-green-100 text-green-600 transition-colors font-bold" data-subject="geography">地理</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-purple-300 bg-purple-50 hover:bg-purple-100 text-purple-600 transition-colors font-bold" data-subject="civics">公民</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors font-bold" data-subject="english">英文</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-red-300 bg-red-50 hover:bg-red-100 text-red-600 transition-colors font-bold" data-subject="chinese">國文</button>
     </div>
 
@@ -187,7 +189,42 @@
     <script>
         // 資料庫：所有資料都在這裡
         const data = [
-            // 順序調整：歷史 -> 地理 -> 公民 -> 英文 -> 國文
+            // 順序調整：理化 -> 英文 -> 歷史 -> 地理 -> 公民 -> 國文
+            {
+                subject: 'science',
+                subjectName: '理化',
+                colorClass: 'bg-[#FFE4E1]', // 修改為指定顏色
+                borderClass: 'border-rose-200', // 搭配柔和的玫瑰色邊框
+                tagColor: '#fb7185', // 搭配較深的玫瑰色標籤
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: '6-1 元素與化合物', link: 'https://nicktsai88.github.io/Nature3-6-1' },
+                            { text: '6-2 生活中常見的元素', link: 'https://nicktsai88.github.io/Nature3-6-2' },
+                            { text: '6-3 原子結構', link: 'https://nicktsai88.github.io/Nature3-6-3' },
+                            { text: '6-4 週期表', link: 'https://nicktsai88.github.io/Nature3-6-4' },
+                            { text: '6-5 分子與化學式', link: 'https://nicktsai88.github.io/Nature3-6-5' }
+                        ]
+                    }
+                ]
+            },
+            {
+                subject: 'english',
+                subjectName: '英文',
+                colorClass: 'bg-blue-50',
+                borderClass: 'border-blue-200',
+                tagColor: '#8ecae6',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 How Long Will We Stay in Bangkok?', link: 'https://nicktsai88.github.io/English3-L5/' },
+                            { text: "L6 How Do We Get to Joe's House?", link: '' }
+                        ]
+                    }
+                ]
+            },
             {
                 subject: 'history',
                 subjectName: '歷史',
@@ -233,22 +270,6 @@
                             { text: 'L4-2 我國中央政府各權力間如何互動', link: 'https://nicktsai88.github.io/Citizen3-L4/' },
                             { text: 'L5 我國的地方政府', link: 'https://nicktsai88.github.io/Citizen3-L5/' },
                             { text: 'L6 民主社會的政治參與及投票', link: '' }
-                        ]
-                    }
-                ]
-            },
-            {
-                subject: 'english',
-                subjectName: '英文',
-                colorClass: 'bg-blue-50',
-                borderClass: 'border-blue-200',
-                tagColor: '#8ecae6',
-                categories: [
-                    {
-                        name: '第3冊',
-                        items: [
-                            { text: 'L5 How Long Will We Stay in Bangkok?', link: 'https://nicktsai88.github.io/English3-L5/' },
-                            { text: "L6 How Do We Get to Joe's House?", link: '' }
                         ]
                     }
                 ]
