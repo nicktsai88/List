@@ -160,32 +160,32 @@
     <div class="flex flex-wrap justify-center gap-3 mb-10 px-4" id="filters">
         <button class="filter-btn active px-4 py-2 rounded-full border-2 border-gray-400 bg-white hover:bg-gray-100 transition-colors font-bold mb-2" data-subject="all">全部顯示</button>
         
-        <!-- 國文系列 -->
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-red-300 bg-red-50 hover:bg-red-100 text-red-600 transition-colors font-bold mb-2" data-subject="chinese">國文(課文)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-pink-300 bg-pink-50 hover:bg-pink-100 text-pink-600 transition-colors font-bold mb-2" data-subject="chinese-char">國文(字音字形)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors font-bold mb-2" data-subject="chinese-idiom">國文(成語)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-600 transition-colors font-bold mb-2" data-subject="chinese-reading">國文(閱讀)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-yellow-300 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 transition-colors font-bold mb-2" data-subject="chinese-selection">國文(選詞)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-lime-300 bg-lime-50 hover:bg-lime-100 text-lime-600 transition-colors font-bold mb-2" data-subject="chinese-correction">國文(改錯)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-stone-300 bg-stone-50 hover:bg-stone-100 text-stone-600 transition-colors font-bold mb-2" data-subject="chinese-classic">國文(古文)</button>
+        <!-- 每日練習 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-yellow-300 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 transition-colors font-bold mb-2" data-subject="daily">每日練習區</button>
         
-        <!-- 英文系列 -->
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors font-bold mb-2" data-subject="english">英文(課文)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-sky-300 bg-sky-50 hover:bg-sky-100 text-sky-600 transition-colors font-bold mb-2" data-subject="english-vocab">英文(單字)</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-indigo-300 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 transition-colors font-bold mb-2" data-subject="english-read">英文(閱讀)</button>
-        
-        <!-- 自然與社會 -->
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-rose-300 bg-[#FFE4E1] hover:bg-rose-100 text-rose-600 transition-colors font-bold mb-2" data-subject="science">理化</button>
+        <!-- 核心科目: 國文 -> 生物 -> 理化 -> 地科 -> 英文 -> 歷史 -> 地理 -> 公民 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-red-300 bg-red-50 hover:bg-red-100 text-red-600 transition-colors font-bold mb-2" data-subject="chinese">國文</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 transition-colors font-bold mb-2" data-subject="biology">生物</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-rose-300 bg-[#FFE4E1] hover:bg-rose-100 text-rose-600 transition-colors font-bold mb-2" data-subject="science">理化</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-cyan-300 bg-cyan-50 hover:bg-cyan-100 text-cyan-600 transition-colors font-bold mb-2" data-subject="earth-science">地球科學</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors font-bold mb-2" data-subject="english">英文</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-orange-300 bg-orange-50 hover:bg-orange-100 text-orange-600 transition-colors font-bold mb-2" data-subject="history">歷史</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-green-300 bg-green-50 hover:bg-green-100 text-green-600 transition-colors font-bold mb-2" data-subject="geography">地理</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-purple-300 bg-purple-50 hover:bg-purple-100 text-purple-600 transition-colors font-bold mb-2" data-subject="civics">公民</button>
         
+        <!-- 國文細項 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-pink-300 bg-pink-50 hover:bg-pink-100 text-pink-600 transition-colors font-bold mb-2" data-subject="chinese-char">國文(字音字形)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors font-bold mb-2" data-subject="chinese-idiom">國文(成語大師)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-stone-300 bg-stone-50 hover:bg-stone-100 text-stone-600 transition-colors font-bold mb-2" data-subject="chinese-classic">國文(古文練習)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-red-200 bg-red-100 hover:bg-red-200 text-red-700 transition-colors font-bold mb-2" data-subject="chinese-theme">國文(主題探索)</button>
+        
+        <!-- 英文細項 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-sky-300 bg-sky-50 hover:bg-sky-100 text-sky-600 transition-colors font-bold mb-2" data-subject="english-vocab">英文(單字練習)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-indigo-300 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 transition-colors font-bold mb-2" data-subject="english-read">英文(閱讀練習)</button>
+        
         <!-- 備用 -->
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors font-bold mb-2" data-subject="backup1">備用1</button>
         <button class="filter-btn px-4 py-2 rounded-full border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-600 transition-colors font-bold mb-2" data-subject="backup2">備用2</button>
-        <button class="filter-btn px-4 py-2 rounded-full border-2 border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-600 transition-colors font-bold mb-2" data-subject="backup3">備用3</button>
     </div>
 
     <!-- Main Content Grid -->
@@ -208,13 +208,35 @@
     <script>
         // 資料庫：所有資料都在這裡
         const data = [
-            // 1. 國文(課文)
+            // 1. 每日練習區
+            {
+                subject: 'daily',
+                subjectName: '每日練習區',
+                colorClass: 'bg-yellow-50',
+                borderClass: 'border-yellow-200',
+                tagColor: '#fbbf24',
+                categories: [
+                    {
+                        name: '洋洋澄澄--衝衝衝',
+                        items: [
+                            { text: '學校老師字音字形題庫', link: 'https://nicktsai88.github.io/JuniorHighQuizChinese3-1/' },
+                            { text: '3段字音練習', link: 'https://nicktsai88.github.io/JuniorHighQuizChinese3-2/' },
+                            { text: '3段字形練習', link: 'https://nicktsai88.github.io/JuniorHighQuizChinese3-3/' },
+                            { text: '3段字義練習', link: 'https://nicktsai88.github.io/JuniorHighQuizChinese3-4/' },
+                            { text: '3段注釋練習', link: 'https://nicktsai88.github.io/JuniorHighQuizChinese3-5/' },
+                            { text: '3段成語練習', link: 'https://nicktsai88.github.io/JuniorHighQuizChinese3-6/' },
+                            { text: '3段凱昱注音', link: 'https://nicktsai88.github.io/JuniorHighQuizChinese3-7/' }
+                        ]
+                    }
+                ]
+            },
+            // 2. 國文 (課文)
             {
                 subject: 'chinese',
-                subjectName: '國文(課文)',
+                subjectName: '國文',
                 colorClass: 'bg-red-50',
                 borderClass: 'border-red-200',
-                tagColor: '#ef4444',
+                tagColor: '#ff8ba7',
                 categories: [
                     {
                         name: '第3冊課文題庫',
@@ -251,7 +273,180 @@
                     }
                 ]
             },
-            // 2. 國文(字音字形)
+            // 3. 生物 (New)
+            {
+                subject: 'biology',
+                subjectName: '生物',
+                colorClass: 'bg-emerald-50',
+                borderClass: 'border-emerald-200',
+                tagColor: '#10b981',
+                categories: [
+                    {
+                        name: '生物學習區',
+                        items: [
+                            { text: '暫無練習內容', link: '' }
+                        ]
+                    }
+                ]
+            },
+            // 4. 理化
+            {
+                subject: 'science',
+                subjectName: '理化',
+                colorClass: 'bg-[#FFE4E1]',
+                borderClass: 'border-rose-200',
+                tagColor: '#fb7185',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: '元素週期表練習', link: 'https://nicktsai88.github.io/Nature3-periodic-table/' },
+                            { text: '元素價數表練習', link: 'https://nicktsai88.github.io/Nature3-valences-table/' },
+                            { text: '5-1 溫度與溫度計', link: 'https://nicktsai88.github.io/Nature3-5-1' },
+                            { text: '5-2 熱量', link: 'https://nicktsai88.github.io/Nature3-5-2' },
+                            { text: '5-3 比熱', link: 'https://nicktsai88.github.io/Nature3-5-3' },
+                            { text: '5-4 熱對物質的影響', link: 'https://nicktsai88.github.io/Nature3-5-4' },
+                            { text: '5-5 熱的傳播方式', link: 'https://nicktsai88.github.io/Nature3-5-5' },
+                            { text: '6-1 元素與化合物', link: 'https://nicktsai88.github.io/Nature3-6-1' },
+                            { text: '6-2 生活中常見的元素', link: 'https://nicktsai88.github.io/Nature3-6-2' },
+                            { text: '6-3 原子結構', link: 'https://nicktsai88.github.io/Nature3-6-3' },
+                            { text: '6-4 週期表', link: 'https://nicktsai88.github.io/Nature3-6-4' },
+                            { text: '6-5 分子與化學式', link: 'https://nicktsai88.github.io/Nature3-6-5' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: '1-1 常見的化學反應', link: 'https://nicktsai88.github.io/Nature4-1-1'},
+                            { text: '1-2 質量守恆定律', link: 'https://nicktsai88.github.io/Nature4-1-2'},
+                            { text: '1-3 反應式與化學計量', link: 'https://nicktsai88.github.io/Nature4-1-3'},
+                            { text: '2-1 氧化反應與活性', link: 'https://nicktsai88.github.io/Nature4-2-1'},
+                            { text: '2-2 氧化與還原', link: 'https://nicktsai88.github.io/Nature4-2-2'},
+                            { text: '2-3 氧化還原的應用', link: 'https://nicktsai88.github.io/Nature4-2-3'},
+                            { text: '3-1 電解質', link: 'https://nicktsai88.github.io/Nature4-3-1'},
+                            { text: '3-2 酸和鹼', link: 'https://nicktsai88.github.io/Nature4-3-2'},
+                            { text: '3-3 酸鹼的強弱與pH質', link: 'https://nicktsai88.github.io/Nature4-3-3'},
+                            { text: '3-4 酸鹼反應', link: 'https://nicktsai88.github.io/Nature4-3-4' },
+                            { text: '4-1 反應速率', link: 'https://nicktsai88.github.io/Nature4-4-1' },
+                            { text: '4-2 可逆反應與平衡', link: 'https://nicktsai88.github.io/Nature4-4-2' }
+                        ]
+                    }
+                ]
+            },
+            // 5. 地球科學 (New)
+            {
+                subject: 'earth-science',
+                subjectName: '地球科學',
+                colorClass: 'bg-cyan-50',
+                borderClass: 'border-cyan-200',
+                tagColor: '#06b6d4',
+                categories: [
+                    {
+                        name: '地科學習區',
+                        items: [
+                            { text: '暫無練習內容', link: '' }
+                        ]
+                    }
+                ]
+            },
+            // 6. 英文 (課文)
+            {
+                subject: 'english',
+                subjectName: '英文',
+                colorClass: 'bg-blue-50',
+                borderClass: 'border-blue-200',
+                tagColor: '#8ecae6',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 How Long Will We Stay in Bangkok?', link: 'https://nicktsai88.github.io/English3-L5/' },
+                            { text: "L6 How Do We Get to Joe's House?", link: 'https://nicktsai88.github.io/English3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 The Coat Is Lighter Then the Jacket', link: 'https://nicktsai88.github.io/English4-L1/' },
+                            { text: 'L2 This Must Be the Oldest Machine in Your Store', link: 'https://nicktsai88.github.io/English4-L1/' }
+                        ]
+                    }
+                ]
+            },
+            // 7. 歷史
+            {
+                subject: 'history',
+                subjectName: '歷史',
+                colorClass: 'bg-orange-50',
+                borderClass: 'border-orange-200',
+                tagColor: '#ffb703',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/History3-L5/' },
+                            { text: 'L6 晚清的社會文化變遷', link: 'https://nicktsai88.github.io/History3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 中華民國的早期發展', link: 'https://nicktsai88.github.io/History4-L1/' },
+                            { text: 'L2 舊傳統與新思潮', link: 'https://nicktsai88.github.io/History4-L2/' }
+                        ]
+                    }
+                ]
+            },
+            // 8. 地理
+            {
+                subject: 'geography',
+                subjectName: '地理',
+                colorClass: 'bg-green-50',
+                borderClass: 'border-green-200',
+                tagColor: '#a7c957',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/Geography3-L5/' },
+                            { text: 'L6 東北亞的經濟發展', link: 'https://nicktsai88.github.io/Geography3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 東南亞', link: 'https://nicktsai88.github.io/Geography3-L5/' },
+                            { text: 'L2 南亞', link: 'https://nicktsai88.github.io/Geography3-L6/' }
+                        ]
+                    }
+                ]
+            },
+            // 9. 公民
+            {
+                subject: 'civics',
+                subjectName: '公民',
+                colorClass: 'bg-purple-50',
+                borderClass: 'border-purple-200',
+                tagColor: '#cdb4db',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L4-2 我國中央政府各權力間如何互動', link: 'https://nicktsai88.github.io/Citizen3-L4/' },
+                            { text: 'L5 我國的地方政府', link: 'https://nicktsai88.github.io/Citizen3-L5/' },
+                            { text: 'L6 民主社會的政治參與及投票', link: 'https://nicktsai88.github.io/Citizen3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 法律與人權', link: 'https://nicktsai88.github.io/Citizen4-L1/'},
+                            { text: 'L2 生活中的民事規範', link: 'https://nicktsai88.github.io/Citizen4-L1/' }
+                        ]
+                    }
+                ]
+            },
+            // 10. 國文(字音字形)
             {
                 subject: 'chinese-char',
                 subjectName: '國文(字音字形)',
@@ -282,10 +477,10 @@
                     }
                 ]
             },
-            // 3. 國文(成語)
+            // 11. 國文(成語大師)
             {
                 subject: 'chinese-idiom',
-                subjectName: '國文(成語)',
+                subjectName: '國文(成語大師)',
                 colorClass: 'bg-rose-50',
                 borderClass: 'border-rose-200',
                 tagColor: '#fb7185',
@@ -304,60 +499,10 @@
                     }
                 ]
             },
-            // 4. 國文(閱讀) (從原本的主題探索拆分)
-            {
-                subject: 'chinese-reading',
-                subjectName: '國文(閱讀)',
-                colorClass: 'bg-amber-50',
-                borderClass: 'border-amber-200',
-                tagColor: '#d97706',
-                categories: [
-                    {
-                        name: '國文閱讀練習',
-                        items: [
-                            { text: '2上國文-閱讀題組', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-1/' },
-                            { text: '2上閱讀練習5', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-4/' },
-                            { text: '2上閱讀練習6', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-5/' }
-                        ]
-                    }
-                ]
-            },
-            // 5. 國文(選詞) (從原本的主題探索拆分)
-            {
-                subject: 'chinese-selection',
-                subjectName: '國文(選詞)',
-                colorClass: 'bg-yellow-50',
-                borderClass: 'border-yellow-200',
-                tagColor: '#ca8a04',
-                categories: [
-                    {
-                        name: '選詞測驗',
-                        items: [
-                            { text: '2上國文-選詞測驗', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-2/' }
-                        ]
-                    }
-                ]
-            },
-            // 6. 國文(改錯) (從原本的主題探索拆分)
-            {
-                subject: 'chinese-correction',
-                subjectName: '國文(改錯)',
-                colorClass: 'bg-lime-50',
-                borderClass: 'border-lime-200',
-                tagColor: '#65a30d',
-                categories: [
-                    {
-                        name: '改錯練習',
-                        items: [
-                            { text: '2上國文-改錯練習', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-3/' }
-                        ]
-                    }
-                ]
-            },
-            // 7. 國文(古文)
+            // 12. 國文(古文練習)
             {
                 subject: 'chinese-classic',
-                subjectName: '國文(古文)',
+                subjectName: '國文(古文練習)',
                 colorClass: 'bg-stone-50',
                 borderClass: 'border-stone-200',
                 tagColor: '#78716c',
@@ -472,6 +617,10 @@
                             { text: '44 東方朔救乳母(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-044-1' },
                             { text: '45 悲摯獸', link: 'https://nicktsai88.github.io/PushChineseClassical-045' },
                             { text: '45 悲摯獸(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-045-1' },
+
+
+
+
                             { text: '65 吳興老狸', link: 'https://nicktsai88.github.io/PushChineseClassical-065' },
                             { text: '71 書感', link: 'https://nicktsai88.github.io/PushChineseClassical-071' },
                             { text: '72 疏廣答勸買田宅者', link: 'https://nicktsai88.github.io/PushChineseClassical-072' },
@@ -481,34 +630,30 @@
                     }
                 ]
             },
-            // 8. 英文(課文)
+            // 13. 國文(主題探索)
             {
-                subject: 'english',
-                subjectName: '英文(課文)',
-                colorClass: 'bg-blue-50',
-                borderClass: 'border-blue-200',
-                tagColor: '#8ecae6',
+                subject: 'chinese-theme',
+                subjectName: '國文(主題探索)',
+                colorClass: 'bg-red-100',
+                borderClass: 'border-red-300',
+                tagColor: '#ef4444',
                 categories: [
                     {
-                        name: '第3冊',
+                        name: '國文閱讀練習',
                         items: [
-                            { text: 'L5 How Long Will We Stay in Bangkok?', link: 'https://nicktsai88.github.io/English3-L5/' },
-                            { text: "L6 How Do We Get to Joe's House?", link: 'https://nicktsai88.github.io/English3-L6/' }
-                        ]
-                    },
-                    {
-                        name: '第4冊',
-                        items: [
-                            { text: 'L1 The Coat Is Lighter Then the Jacket', link: 'https://nicktsai88.github.io/English4-L1/' },
-                            { text: 'L2 This Must Be the Oldest Machine in Your Store', link: 'https://nicktsai88.github.io/English4-L1/' }
+                            { text: '2上國文-閱讀題組', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-1/' },
+                            { text: '2上國文-選詞測驗', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-2/' },
+                            { text: '2上國文-改錯練習', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-3/' },
+                            { text: '2上閱讀練習5', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-4/' },
+                            { text: '2上閱讀練習6', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-5/' }
                         ]
                     }
                 ]
             },
-            // 9. 英文(單字)
+            // 14. 英文(單字練習) - 目前為空
             {
                 subject: 'english-vocab',
-                subjectName: '英文(單字)',
+                subjectName: '英文(單字練習)',
                 colorClass: 'bg-sky-50',
                 borderClass: 'border-sky-200',
                 tagColor: '#38bdf8',
@@ -521,10 +666,10 @@
                     }
                 ]
             },
-            // 10. 英文(閱讀)
+            // 15. 英文(閱讀練習)
             {
                 subject: 'english-read',
-                subjectName: '英文(閱讀)',
+                subjectName: '英文(閱讀練習)',
                 colorClass: 'bg-indigo-50',
                 borderClass: 'border-indigo-200',
                 tagColor: '#818cf8',
@@ -537,157 +682,8 @@
                     }
                 ]
             },
-            // 11. 理化
-            {
-                subject: 'science',
-                subjectName: '理化',
-                colorClass: 'bg-[#FFE4E1]',
-                borderClass: 'border-rose-200',
-                tagColor: '#fb7185',
-                categories: [
-                    {
-                        name: '第3冊',
-                        items: [
-                            { text: '元素週期表練習', link: 'https://nicktsai88.github.io/Nature3-periodic-table/' },
-                            { text: '元素價數表練習', link: 'https://nicktsai88.github.io/Nature3-valences-table/' },
-                            { text: '5-1 溫度與溫度計', link: 'https://nicktsai88.github.io/Nature3-5-1' },
-                            { text: '5-2 熱量', link: 'https://nicktsai88.github.io/Nature3-5-2' },
-                            { text: '5-3 比熱', link: 'https://nicktsai88.github.io/Nature3-5-3' },
-                            { text: '5-4 熱對物質的影響', link: 'https://nicktsai88.github.io/Nature3-5-4' },
-                            { text: '5-5 熱的傳播方式', link: 'https://nicktsai88.github.io/Nature3-5-5' },
-                            { text: '6-1 元素與化合物', link: 'https://nicktsai88.github.io/Nature3-6-1' },
-                            { text: '6-2 生活中常見的元素', link: 'https://nicktsai88.github.io/Nature3-6-2' },
-                            { text: '6-3 原子結構', link: 'https://nicktsai88.github.io/Nature3-6-3' },
-                            { text: '6-4 週期表', link: 'https://nicktsai88.github.io/Nature3-6-4' },
-                            { text: '6-5 分子與化學式', link: 'https://nicktsai88.github.io/Nature3-6-5' }
-                        ]
-                    },
-                    {
-                        name: '第4冊',
-                        items: [
-                            { text: '1-1 常見的化學反應', link: 'https://nicktsai88.github.io/Nature4-1-1'},
-                            { text: '1-2 質量守恆定律', link: 'https://nicktsai88.github.io/Nature4-1-2'},
-                            { text: '1-3 反應式與化學計量', link: 'https://nicktsai88.github.io/Nature4-1-3'},
-                            { text: '2-1 氧化反應與活性', link: 'https://nicktsai88.github.io/Nature4-2-1'},
-                            { text: '2-2 氧化與還原', link: 'https://nicktsai88.github.io/Nature4-2-2'},
-                            { text: '2-3 氧化還原的應用', link: 'https://nicktsai88.github.io/Nature4-2-3'},
-                            { text: '3-1 電解質', link: 'https://nicktsai88.github.io/Nature4-3-1'},
-                            { text: '3-2 酸和鹼', link: 'https://nicktsai88.github.io/Nature4-3-2'},
-                            { text: '3-3 酸鹼的強弱與pH質', link: 'https://nicktsai88.github.io/Nature4-3-3'},
-                            { text: '3-4 酸鹼反應', link: 'https://nicktsai88.github.io/Nature4-3-4' },
-                            { text: '4-1 反應速率', link: 'https://nicktsai88.github.io/Nature4-4-1' },
-                            { text: '4-2 可逆反應與平衡', link: 'https://nicktsai88.github.io/Nature4-4-2' }
-                        ]
-                    }
-                ]
-            },
-            // 12. 生物
-            {
-                subject: 'biology',
-                subjectName: '生物',
-                colorClass: 'bg-emerald-50',
-                borderClass: 'border-emerald-200',
-                tagColor: '#10b981',
-                categories: [
-                    {
-                        name: '生物學習區',
-                        items: [
-                            { text: '暫無練習內容', link: '' }
-                        ]
-                    }
-                ]
-            },
-            // 13. 地球科學
-            {
-                subject: 'earth-science',
-                subjectName: '地球科學',
-                colorClass: 'bg-cyan-50',
-                borderClass: 'border-cyan-200',
-                tagColor: '#06b6d4',
-                categories: [
-                    {
-                        name: '地科學習區',
-                        items: [
-                            { text: '暫無練習內容', link: '' }
-                        ]
-                    }
-                ]
-            },
-            // 14. 歷史
-            {
-                subject: 'history',
-                subjectName: '歷史',
-                colorClass: 'bg-orange-50',
-                borderClass: 'border-orange-200',
-                tagColor: '#ffb703',
-                categories: [
-                    {
-                        name: '第3冊',
-                        items: [
-                            { text: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/History3-L5/' },
-                            { text: 'L6 晚清的社會文化變遷', link: 'https://nicktsai88.github.io/History3-L6/' }
-                        ]
-                    },
-                    {
-                        name: '第4冊',
-                        items: [
-                            { text: 'L1 中華民國的早期發展', link: 'https://nicktsai88.github.io/History4-L1/' },
-                            { text: 'L2 舊傳統與新思潮', link: 'https://nicktsai88.github.io/History4-L2/' }
-                        ]
-                    }
-                ]
-            },
-            // 15. 地理
-            {
-                subject: 'geography',
-                subjectName: '地理',
-                colorClass: 'bg-green-50',
-                borderClass: 'border-green-200',
-                tagColor: '#a7c957',
-                categories: [
-                    {
-                        name: '第3冊',
-                        items: [
-                            { text: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/Geography3-L5/' },
-                            { text: 'L6 東北亞的經濟發展', link: 'https://nicktsai88.github.io/Geography3-L6/' }
-                        ]
-                    },
-                    {
-                        name: '第4冊',
-                        items: [
-                            { text: 'L1 東南亞', link: 'https://nicktsai88.github.io/Geography3-L5/' },
-                            { text: 'L2 南亞', link: 'https://nicktsai88.github.io/Geography3-L6/' }
-                        ]
-                    }
-                ]
-            },
-            // 16. 公民
-            {
-                subject: 'civics',
-                subjectName: '公民',
-                colorClass: 'bg-purple-50',
-                borderClass: 'border-purple-200',
-                tagColor: '#cdb4db',
-                categories: [
-                    {
-                        name: '第3冊',
-                        items: [
-                            { text: 'L4-2 我國中央政府各權力間如何互動', link: 'https://nicktsai88.github.io/Citizen3-L4/' },
-                            { text: 'L5 我國的地方政府', link: 'https://nicktsai88.github.io/Citizen3-L5/' },
-                            { text: 'L6 民主社會的政治參與及投票', link: 'https://nicktsai88.github.io/Citizen3-L6/' }
-                        ]
-                    },
-                    {
-                        name: '第4冊',
-                        items: [
-                            { text: 'L1 法律與人權', link: 'https://nicktsai88.github.io/Citizen4-L1/'},
-                            { text: 'L2 生活中的民事規範', link: 'https://nicktsai88.github.io/Citizen4-L1/' }
-                        ]
-                    }
-                ]
-            },
-            // 17. 備用1
-            {
+             // 16. 備用1 (New)
+             {
                 subject: 'backup1',
                 subjectName: '備用1',
                 colorClass: 'bg-slate-50',
@@ -702,7 +698,7 @@
                     }
                 ]
             },
-            // 18. 備用2
+            // 17. 備用2 (New)
             {
                 subject: 'backup2',
                 subjectName: '備用2',
@@ -712,22 +708,6 @@
                 categories: [
                     {
                         name: '備用區域 2',
-                        items: [
-                            { text: '待新增內容', link: '' }
-                        ]
-                    }
-                ]
-            },
-            // 19. 備用3
-            {
-                subject: 'backup3',
-                subjectName: '備用3',
-                colorClass: 'bg-zinc-50',
-                borderClass: 'border-zinc-200',
-                tagColor: '#71717a',
-                categories: [
-                    {
-                        name: '備用區域 3',
                         items: [
                             { text: '待新增內容', link: '' }
                         ]
