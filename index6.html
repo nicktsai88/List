@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的學習百寶箱</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts (可愛圓體) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Zen Maru Gothic"', 'sans-serif'],
+                    },
+                    colors: {
+                        paper: '#fdfbf7',
+                        'crayon-red': '#ff8ba7',
+                        'crayon-blue': '#8ecae6',
+                        'crayon-orange': '#ffb703',
+                        'crayon-green': '#a7c957',
+                        'crayon-purple': '#cdb4db',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .hand-drawn-box {
+            border: 3px solid #4b5563;
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            background-color: white; /* 確保有底色 */
+        }
+
+        .hand-drawn-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 7px 7px 0px rgba(0,0,0,0.15);
+        }
+
+        .category-header {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-header::before {
+            content: '★';
+            margin-right: 8px;
+            color: #fbbf24;
+        }
+
+        /* 卷軸美化 */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .link-item {
+            display: block;
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            color: #374151;
+            border-bottom: 1px dashed transparent;
+        }
+        
+        .link-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .link-item.has-link {
+            color: #2563eb;
+            border-bottom: 1px dashed #93c5fd;
+        }
+        
+        .link-item.has-link:hover {
+            background-color: #eff6ff;
+        }
+
+        /* 標籤貼紙效果 */
+        .subject-tag {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            padding: 5px 15px;
+            color: white;
+            font-weight: bold;
+            transform: rotate(3deg);
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        /* 膠帶效果 */
+        .tape {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 100px;
+            height: 30px;
+            z-index: 5;
+            border-left: 1px dashed rgba(0,0,0,0.1);
+            border-right: 1px dashed rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-700 pb-20">
+
+    <!-- Header -->
+    <header class="text-center pt-12 pb-8 px-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 tracking-wider" style="text-shadow: 2px 2px 0px white;">
+            📚 學習目錄百寶箱
+        </h1>
+        <p class="text-gray-500 text-lg mb-8">快樂學習，天天向上！</p>
+        
+        <!-- Search Bar -->
+        <div class="max-w-md mx-auto relative group">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400 group-focus-within:text-crayon-red transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <input type="text" id="searchInput" placeholder="搜尋課文、成語或作者..." 
+                class="block w-full pl-10 pr-3 py-3 border-2 border-gray-300 rounded-full leading-5 bg-white placeholder-gray-400 focus:outline-none focus:border-crayon-red focus:ring-2 focus:ring-crayon-red focus:ring-opacity-50 transition-all shadow-sm">
+        </div>
+    </header>
+
+    <!-- Navigation Filters -->
+    <div class="flex flex-wrap justify-center gap-3 mb-10 px-4" id="filters">
+        <button class="filter-btn active px-4 py-2 rounded-full border-2 border-gray-400 bg-white hover:bg-gray-100 transition-colors font-bold mb-2" data-subject="all">全部顯示</button>
+        
+        <!-- 國文系列 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-red-300 bg-red-50 hover:bg-red-100 text-red-600 transition-colors font-bold mb-2" data-subject="chinese">國文(課文)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-pink-300 bg-pink-50 hover:bg-pink-100 text-pink-600 transition-colors font-bold mb-2" data-subject="chinese-char">國文(字音字形)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors font-bold mb-2" data-subject="chinese-idiom">國文(成語)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-600 transition-colors font-bold mb-2" data-subject="chinese-reading">國文(閱讀)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-yellow-300 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 transition-colors font-bold mb-2" data-subject="chinese-selection">國文(選詞)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-lime-300 bg-lime-50 hover:bg-lime-100 text-lime-600 transition-colors font-bold mb-2" data-subject="chinese-correction">國文(改錯)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-stone-300 bg-stone-50 hover:bg-stone-100 text-stone-600 transition-colors font-bold mb-2" data-subject="chinese-classic">國文(古文)</button>
+        
+        <!-- 英文系列 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-600 transition-colors font-bold mb-2" data-subject="english">英文(課文)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-sky-300 bg-sky-50 hover:bg-sky-100 text-sky-600 transition-colors font-bold mb-2" data-subject="english-vocab">英文(單字)</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-indigo-300 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 transition-colors font-bold mb-2" data-subject="english-read">英文(閱讀)</button>
+        
+        <!-- 自然與社會 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-rose-300 bg-[#FFE4E1] hover:bg-rose-100 text-rose-600 transition-colors font-bold mb-2" data-subject="science">理化</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 transition-colors font-bold mb-2" data-subject="biology">生物</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-cyan-300 bg-cyan-50 hover:bg-cyan-100 text-cyan-600 transition-colors font-bold mb-2" data-subject="earth-science">地球科學</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-orange-300 bg-orange-50 hover:bg-orange-100 text-orange-600 transition-colors font-bold mb-2" data-subject="history">歷史</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-green-300 bg-green-50 hover:bg-green-100 text-green-600 transition-colors font-bold mb-2" data-subject="geography">地理</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-purple-300 bg-purple-50 hover:bg-purple-100 text-purple-600 transition-colors font-bold mb-2" data-subject="civics">公民</button>
+        
+        <!-- 備用 -->
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors font-bold mb-2" data-subject="backup1">備用1</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 text-gray-600 transition-colors font-bold mb-2" data-subject="backup2">備用2</button>
+        <button class="filter-btn px-4 py-2 rounded-full border-2 border-zinc-300 bg-zinc-50 hover:bg-zinc-100 text-zinc-600 transition-colors font-bold mb-2" data-subject="backup3">備用3</button>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="container mx-auto px-4">
+        <div id="content-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-start">
+            <!-- Content will be injected here by JavaScript -->
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="no-results" class="hidden text-center py-20">
+            <div class="text-6xl mb-4">🙈</div>
+            <p class="text-xl text-gray-500">找不到相關內容，換個關鍵字試試看？</p>
+        </div>
+    </main>
+
+    <footer class="text-center mt-20 text-gray-400 text-sm">
+        <p>Made with ❤️ for Learning</p>
+    </footer>
+
+    <script>
+        // 資料庫：所有資料都在這裡
+        const data = [
+            // 1. 國文(課文)
+            {
+                subject: 'chinese',
+                subjectName: '國文(課文)',
+                colorClass: 'bg-red-50',
+                borderClass: 'border-red-200',
+                tagColor: '#ef4444',
+                categories: [
+                    {
+                        name: '第3冊課文題庫',
+                        isLongList: true,
+                        items: [
+                            { text: 'L7 張釋之執法', link: 'https://nicktsai88.github.io/Chinese3-L7/' },
+                            { text: 'L7 張釋之執法-補充教材1', link: 'https://nicktsai88.github.io/Chinese3-L7-1/' },
+                            { text: 'L7 張釋之執法-補充教材2', link: 'https://nicktsai88.github.io/Chinese3-L7-2/' },
+                            { text: 'L8 尋找失落的水源', link: 'https://nicktsai88.github.io/Chinese3-L8/' },
+                            { text: 'L8 尋找失落的水源-補充教材1', link: 'https://nicktsai88.github.io/Chinese3-L8-1/' },
+                            { text: 'L9 一棵開花的樹', link: 'https://nicktsai88.github.io/Chinese3-L9/' },
+                            { text: 'L9 一棵開花的樹-補充教材', link: 'https://nicktsai88.github.io/Chinese3-L9-1/' },
+                            { text: 'L10 畫的哀傷', link: 'https://nicktsai88.github.io/Chinese3-L10/' },
+                            { text: 'L10 畫的哀傷-補充教材', link: 'https://nicktsai88.github.io/Chinese3-L10-1/' },
+                            { text: '選文三 安藤忠雄', link: 'https://nicktsai88.github.io/Chinese3-L11/' },
+                            { text: '選文三 安藤忠雄2', link: 'https://nicktsai88.github.io/Chinese3-L11-1/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊課文題庫',
+                        isLongList: true,
+                        items: [
+                            { text: 'L1 運動家的風度', link: 'https://nicktsai88.github.io/Chinese4-L1/' },
+                            { text: 'L1 運動家的風度-注釋練習', link: 'https://nicktsai88.github.io/Chinese4-L1-1/' },
+                            { text: 'L1 運動家的風度-多音字練習', link: 'https://nicktsai88.github.io/Chinese4-L1-2/' },
+                            { text: 'L1 運動家的風度-字音練習', link: 'https://nicktsai88.github.io/Chinese4-L1-3/' },
+                            { text: 'L1 運動家的風度-字形練習', link: 'https://nicktsai88.github.io/Chinese4-L1-4/' },
+                            { text: 'L1 運動家的風度-字義練習', link: 'https://nicktsai88.github.io/Chinese4-L1-5/' },
+                            { text: 'L1 運動家的風度-補充教材', link: 'https://nicktsai88.github.io/Chinese4-L1-6/' },
+                            { text: 'L2 木蘭詩', link: 'https://nicktsai88.github.io/Chinese4-L2/' },
+                            { text: 'L2 木蘭詩-補充教材', link: 'https://nicktsai88.github.io/Chinese4-L2-1/' },
+                            { text: 'L3 管好舌頭', link: 'https://nicktsai88.github.io/Chinese4-L3/' },
+                            { text: 'L3 管好舌頭-補充教材', link: 'https://nicktsai88.github.io/Chinese4-L3-1/' },
+                            { text: '語文常識(一) 書信、便條', link: 'https://nicktsai88.github.io/Chinese4-K1/' }
+                        ]
+                    }
+                ]
+            },
+            // 2. 國文(字音字形)
+            {
+                subject: 'chinese-char',
+                subjectName: '國文(字音字形)',
+                colorClass: 'bg-pink-50',
+                borderClass: 'border-pink-200',
+                tagColor: '#f472b6',
+                categories: [
+                    {
+                        name: '字音字形練習',
+                        isLongList: true,
+                        items: [
+                            { text: '字音第1回-國小範圍(1~98)', link: 'https://nicktsai88.github.io/Pronunciation-Character-1/' },
+                            { text: '字音第2回-國小範圍(99~197)', link: 'https://nicktsai88.github.io/Pronunciation-Character-2/' },
+                            { text: '字音第3回-國小範圍(198~286)', link: 'https://nicktsai88.github.io/Pronunciation-Character-3/' },
+                            { text: '字音第4回-國小範圍(287~378)', link: 'https://nicktsai88.github.io/Pronunciation-Character-4/' },
+                            { text: '字音第5回-國小範圍(379~464)', link: 'https://nicktsai88.github.io/Pronunciation-Character-5/' },
+                            { text: '字音第6回-國小範圍(465~552)', link: 'https://nicktsai88.github.io/Pronunciation-Character-6/' },
+                            { text: '字音第7回-國小範圍(553~626)', link: 'https://nicktsai88.github.io/Pronunciation-Character-7/' },
+                            { text: '字音第8回-國小範圍(627~710)', link: 'https://nicktsai88.github.io/Pronunciation-Character-8/' },
+                            { text: '字音第9回-國小範圍(711~802)', link: 'https://nicktsai88.github.io/Pronunciation-Character-9/' },
+                            { text: '字音第10回-國小範圍(803~875)', link: 'https://nicktsai88.github.io/Pronunciation-Character-10/' },
+                            { text: '字音第11回-國小範圍(876~964)', link: 'https://nicktsai88.github.io/Pronunciation-Character-11/' },
+                            { text: '字音第12回-國小範圍(965~1048)', link: 'https://nicktsai88.github.io/Pronunciation-Character-12/' },
+                            { text: '字音第13回-國小範圍(1049~1132)', link: 'https://nicktsai88.github.io/Pronunciation-Character-13/' },
+                            { text: '字型第1回-國小範圍(1~98)', link: 'https://nicktsai88.github.io/Pronunciation-Character-14/' },
+                            { text: '字型第2回-國小範圍(1~98)', link: 'https://nicktsai88.github.io/Pronunciation-Character-15/' }
+                        ]
+                    }
+                ]
+            },
+            // 3. 國文(成語)
+            {
+                subject: 'chinese-idiom',
+                subjectName: '國文(成語)',
+                colorClass: 'bg-rose-50',
+                borderClass: 'border-rose-200',
+                tagColor: '#fb7185',
+                categories: [
+                    {
+                        name: '成語大師',
+                        isLongList: true,
+                        items: [
+                            { text: '三國典故 (120個成語)', link: 'https://nicktsai88.github.io/ChineseIdiom2/' },
+                            { text: '第3冊-張釋之執法 (120個成語)', link: 'https://nicktsai88.github.io/ChineseIdiom1/' },
+                            { text: '第3冊-尋找失落的水源 (174個成語)', link: 'https://nicktsai88.github.io/ChineseIdiom3/' },
+                            { text: '第3冊-一棵開花的樹 (253個成語)', link: 'https://nicktsai88.github.io/ChineseIdiom4/' },
+                            { text: '第4冊-L1 運動家的風度', link: 'https://nicktsai88.github.io/ChineseIdiom5/' },
+                            { text: '第4冊-L2 木蘭詩', link: 'https://nicktsai88.github.io/ChineseIdiom6/' },
+                            { text: '第4冊-L3 管好舌頭', link: 'https://nicktsai88.github.io/ChineseIdiom7/' }
+                        ]
+                    }
+                ]
+            },
+            // 4. 國文(閱讀) (從原本的主題探索拆分)
+            {
+                subject: 'chinese-reading',
+                subjectName: '國文(閱讀)',
+                colorClass: 'bg-amber-50',
+                borderClass: 'border-amber-200',
+                tagColor: '#d97706',
+                categories: [
+                    {
+                        name: '國文閱讀練習',
+                        items: [
+                            { text: '2上國文-閱讀題組', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-1/' },
+                            { text: '2上閱讀練習5', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-4/' },
+                            { text: '2上閱讀練習6', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-5/' }
+                        ]
+                    }
+                ]
+            },
+            // 5. 國文(選詞) (從原本的主題探索拆分)
+            {
+                subject: 'chinese-selection',
+                subjectName: '國文(選詞)',
+                colorClass: 'bg-yellow-50',
+                borderClass: 'border-yellow-200',
+                tagColor: '#ca8a04',
+                categories: [
+                    {
+                        name: '選詞測驗',
+                        items: [
+                            { text: '2上國文-選詞測驗', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-2/' }
+                        ]
+                    }
+                ]
+            },
+            // 6. 國文(改錯) (從原本的主題探索拆分)
+            {
+                subject: 'chinese-correction',
+                subjectName: '國文(改錯)',
+                colorClass: 'bg-lime-50',
+                borderClass: 'border-lime-200',
+                tagColor: '#65a30d',
+                categories: [
+                    {
+                        name: '改錯練習',
+                        items: [
+                            { text: '2上國文-改錯練習', link: 'https://nicktsai88.github.io/ChineseClassQuizSet3-3/' }
+                        ]
+                    }
+                ]
+            },
+            // 7. 國文(古文)
+            {
+                subject: 'chinese-classic',
+                subjectName: '國文(古文)',
+                colorClass: 'bg-stone-50',
+                borderClass: 'border-stone-200',
+                tagColor: '#78716c',
+                categories: [
+                    {
+                        name: '吳敏男-第一輯上冊',
+                        isLongList: true,
+                        items: [
+                            { text: '1<論語>孔子與弟子言志', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-001' },
+                            { text: '2<論語>論廉恥', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-002' },
+                            { text: '3<論語>暴虎馮河', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-003' },
+                            { text: '4<論語>論忠信', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-004' },
+                            { text: '5<禮記>仁哉管仲', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-005' },
+                            { text: '6<論語>問一得三', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-006' },
+                            { text: '7<論語>顏回好學', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-007' },
+                            { text: '8<論語>割雞焉用牛刀', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-008' },
+                            { text: '9<禮記>苛政猛於虎', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-009' },
+                            { text: '10<孝經>開宗明義章', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-010' },
+                            { text: '11<孟子>奕喻', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-011' },
+                            { text: '12<孟子>揠苗助長', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-012' },
+                            { text: '13<韓非子>鄭人買履', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-013' },
+                            { text: '14<韓非子>美醜之論', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-014' },
+                            { text: '15<韓非子>濫竽充數', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-015' },
+                            { text: '16<韓非子>守株待兔', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-016' },
+                            { text: '17<韓非子>畫鬼最易', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-017' },
+                            { text: '18<韓非子>晉文公攻原得衛', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-018' },
+                            { text: '19<韓非子>唇亡齒寒', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-019' },
+                            { text: '20<韓非子>不死之道', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-020' },
+                            { text: '21<韓非子>曾子殺彘', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-021' },
+                            { text: '22<韓非子>不死之藥', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-022' },
+                            { text: '23<呂氏春秋>齊王射箭', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-023' },
+                            { text: '24<呂氏春秋>亡鈇意鄰', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-024' },
+                            { text: '25<呂氏春秋>刻舟求劍', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-025' },
+                            { text: '26<杜甫>絕句', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-026' },
+                            { text: '27<王維>雜詩', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-027' },
+                            { text: '28<岑參>逢入京使', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-028' },
+                            { text: '29<孟郊>遊子吟', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-029' },
+                            { text: '30<李紳>憫農詩', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-030' },
+                            { text: '31<俞樾>一笑', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-031' },
+                            { text: '32<史記>毛遂自薦', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-032' },
+                            { text: '33<世說新語>將心比心', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-033' },
+                            { text: '34<韓非子>彌子瑕', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-034' },
+                            { text: '35<李白-張繼>唐詩', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-035' },
+                            { text: '36<世說新語>慎始', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-036' },
+                            { text: '37<引列異傳>列異不可惑', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-037' },
+                            { text: '38<搜神後記>搜神靈犬', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-038' },
+                            { text: '39<日知錄序>顧炎武', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-039' },
+                            { text: '40<夢溪筆談>狄青', link: 'https://nicktsai88.github.io/WuChineseClassical-1-2-040' }
+                        ]
+                    },
+                    {
+                        name: '文言文推與敲',
+                        isLongList: true,
+                        items: [
+                            { text: '1 覆水難收', link: 'https://nicktsai88.github.io/PushChineseClassical-001' },
+                            { text: '2 鳥', link: 'https://nicktsai88.github.io/PushChineseClassical-002' },
+                            { text: '3 白娘子永鎮雷峰塔', link: 'https://nicktsai88.github.io/PushChineseClassical-003' },
+                            { text: '4 懷橘遺親', link: 'https://nicktsai88.github.io/PushChineseClassical-004' },
+                            { text: '5 子罕辭寶', link: 'https://nicktsai88.github.io/PushChineseClassical-005' },
+                            { text: '6 晏子使楚', link: 'https://nicktsai88.github.io/PushChineseClassical-006' },
+                            { text: '7 肉脯可充饑', link: 'https://nicktsai88.github.io/PushChineseClassical-007' },
+                            { text: '8 恍惚', link: 'https://nicktsai88.github.io/PushChineseClassical-008' },
+                            { text: '9 山雞獻楚', link: 'https://nicktsai88.github.io/PushChineseClassical-009' },
+                            { text: '10 <論語>選-待人處事', link: 'https://nicktsai88.github.io/PushChineseClassical-010' },
+                            { text: '11 各司其職', link: 'https://nicktsai88.github.io/PushChineseClassical-011' },
+                            { text: '12 趙人鼠患', link: 'https://nicktsai88.github.io/PushChineseClassical-012' },
+                            { text: '13 晦翁語錄', link: 'https://nicktsai88.github.io/PushChineseClassical-013' },
+                            { text: '14 三豕涉河', link: 'https://nicktsai88.github.io/PushChineseClassical-014' },
+                            { text: '15 濰縣署中寄舍弟墨第一書', link: 'https://nicktsai88.github.io/PushChineseClassical-015' },
+                            { text: '16 孔雀愛尾', link: 'https://nicktsai88.github.io/PushChineseClassical-016' },
+                            { text: '17 烏賊求全', link: 'https://nicktsai88.github.io/PushChineseClassical-017' },
+                            { text: '18 地理', link: 'https://nicktsai88.github.io/PushChineseClassical-018' },
+                            { text: '19 六一居士傳', link: 'https://nicktsai88.github.io/PushChineseClassical-019' },
+                            { text: '20 牡丹與貓眼', link: 'https://nicktsai88.github.io/PushChineseClassical-020' },
+                            { text: '21 <幽夢影>選:生活逸趣', link: 'https://nicktsai88.github.io/PushChineseClassical-021' },
+                            { text: '22 尹綽與赦厥', link: 'https://nicktsai88.github.io/PushChineseClassical-022' },
+                            { text: '23 扁鵲投石', link: 'https://nicktsai88.github.io/PushChineseClassical-023' },
+                            { text: '24 治國猶栽樹', link: 'https://nicktsai88.github.io/PushChineseClassical-024' },
+                            { text: '25 痴人說夢', link: 'https://nicktsai88.github.io/PushChineseClassical-025' },
+                            { text: '26 黠鼠賦', link: 'https://nicktsai88.github.io/PushChineseClassical-026' },
+                            { text: '27 貓號', link: 'https://nicktsai88.github.io/PushChineseClassical-027' },
+                            { text: '28 王積薪聞棋', link: 'https://nicktsai88.github.io/PushChineseClassical-028' },
+                            { text: '29 罵鴨', link: 'https://nicktsai88.github.io/PushChineseClassical-029' },
+                            { text: '30 不氣歌', link: 'https://nicktsai88.github.io/PushChineseClassical-030' },
+                            { text: '31 齊人攫金', link: 'https://nicktsai88.github.io/PushChineseClassical-031' },
+                            { text: '31 齊人攫金(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-031-1' },
+                            { text: '32 某甲', link: 'https://nicktsai88.github.io/PushChineseClassical-032' },
+                            { text: '32 某甲(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-032-1' },
+                            { text: '33 <菜根譚>選: 待人處事', link: 'https://nicktsai88.github.io/PushChineseClassical-033' },
+                            { text: '33 <菜根譚>選: 待人處事(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-033-1' },
+                            { text: '34 戲題芭蕉', link: 'https://nicktsai88.github.io/PushChineseClassical-034' },
+                            { text: '34 戲題芭蕉(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-034-1' },
+                            { text: '35 斫樹取果', link: 'https://nicktsai88.github.io/PushChineseClassical-035' },
+                            { text: '35 斫樹取果(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-035-1' },
+                            { text: '36 農夫耕田', link: 'https://nicktsai88.github.io/PushChineseClassical-036' },
+                            { text: '36 農夫耕田(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-036-1' },
+                            { text: '37 推敲', link: 'https://nicktsai88.github.io/PushChineseClassical-037' },
+                            { text: '37 推敲(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-037-1' },
+                            { text: '38 贈別', link: 'https://nicktsai88.github.io/PushChineseClassical-038' },
+                            { text: '38 贈別(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-038-1' },
+                            { text: '39 穿胸國', link: 'https://nicktsai88.github.io/PushChineseClassical-039' },
+                            { text: '39 穿胸國(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-039-1' },
+                            { text: '40 只為一堵牆', link: 'https://nicktsai88.github.io/PushChineseClassical-040' },
+                            { text: '40 只為一堵牆(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-040-1' },
+                            { text: '41 旅夜書懷', link: 'https://nicktsai88.github.io/PushChineseClassical-041' },
+                            { text: '41 旅夜書懷(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-041-1' },
+                            { text: '42 塞翁失馬', link: 'https://nicktsai88.github.io/PushChineseClassical-042' },
+                            { text: '42 塞翁失馬(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-042-1' },
+                            { text: '43 金絲猿', link: 'https://nicktsai88.github.io/PushChineseClassical-043' },
+                            { text: '43 金絲猿(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-043-1' },
+                            { text: '44 東方朔救乳母', link: 'https://nicktsai88.github.io/PushChineseClassical-044' },
+                            { text: '44 東方朔救乳母(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-044-1' },
+                            { text: '45 悲摯獸', link: 'https://nicktsai88.github.io/PushChineseClassical-045' },
+                            { text: '45 悲摯獸(模擬試題)', link: 'https://nicktsai88.github.io/PushChineseClassical-045-1' },
+                            { text: '65 吳興老狸', link: 'https://nicktsai88.github.io/PushChineseClassical-065' },
+                            { text: '71 書感', link: 'https://nicktsai88.github.io/PushChineseClassical-071' },
+                            { text: '72 疏廣答勸買田宅者', link: 'https://nicktsai88.github.io/PushChineseClassical-072' },
+                            { text: '73 涉江采芙蓉', link: 'https://nicktsai88.github.io/PushChineseClassical-073' },
+                            { text: '74 澆灌竹木', link: 'https://nicktsai88.github.io/PushChineseClassical-074' }
+                        ]
+                    }
+                ]
+            },
+            // 8. 英文(課文)
+            {
+                subject: 'english',
+                subjectName: '英文(課文)',
+                colorClass: 'bg-blue-50',
+                borderClass: 'border-blue-200',
+                tagColor: '#8ecae6',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 How Long Will We Stay in Bangkok?', link: 'https://nicktsai88.github.io/English3-L5/' },
+                            { text: "L6 How Do We Get to Joe's House?", link: 'https://nicktsai88.github.io/English3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 The Coat Is Lighter Then the Jacket', link: 'https://nicktsai88.github.io/English4-L1/' },
+                            { text: 'L2 This Must Be the Oldest Machine in Your Store', link: 'https://nicktsai88.github.io/English4-L1/' }
+                        ]
+                    }
+                ]
+            },
+            // 9. 英文(單字)
+            {
+                subject: 'english-vocab',
+                subjectName: '英文(單字)',
+                colorClass: 'bg-sky-50',
+                borderClass: 'border-sky-200',
+                tagColor: '#38bdf8',
+                categories: [
+                    {
+                        name: '單字練習區',
+                        items: [
+                            { text: '暫無練習內容', link: '' }
+                        ]
+                    }
+                ]
+            },
+            // 10. 英文(閱讀)
+            {
+                subject: 'english-read',
+                subjectName: '英文(閱讀)',
+                colorClass: 'bg-indigo-50',
+                borderClass: 'border-indigo-200',
+                tagColor: '#818cf8',
+                categories: [
+                    {
+                        name: '閱讀測驗',
+                        items: [
+                            { text: '2上英文-閱讀練習', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3/' },
+                            { text: 'The Mystery of the Sailing Stones', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3-1/' },
+                            { text: 'The Hidden Truth Behind Viral Videos', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3-2/' },
+                            { text: 'Conflict and Hope: The War in Ukraine', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3-3/' },
+                            { text: 'Pets Over Kids: Taiwans Demographic Crisis', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3-4/' },
+                            { text: 'Across the Strait: A Complex Relationship', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3-5/' },
+                            { text: 'The Great Wall: A Dragon of Stone', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3-6/' },
+                            { text: 'Qin Shi Huang: The First Emperor of China', link: 'https://nicktsai88.github.io/EnglishClassQuizSet3-7/' }
+                        ]
+                    }
+                ]
+            },
+            // 11. 理化
+            {
+                subject: 'science',
+                subjectName: '理化',
+                colorClass: 'bg-[#FFE4E1]',
+                borderClass: 'border-rose-200',
+                tagColor: '#fb7185',
+                categories: [
+                    {
+                        name: '第3冊',
+                        isLongList: true,
+                        items: [
+                            { text: '元素週期表練習', link: 'https://nicktsai88.github.io/Nature3-periodic-table/' },
+                            { text: '元素價數表練習', link: 'https://nicktsai88.github.io/Nature3-valences-table/' },
+                            { text: '5-1 溫度與溫度計', link: 'https://nicktsai88.github.io/Nature3-5-1' },
+                            { text: '5-2 熱量', link: 'https://nicktsai88.github.io/Nature3-5-2' },
+                            { text: '5-3 比熱', link: 'https://nicktsai88.github.io/Nature3-5-3' },
+                            { text: '5-4 熱對物質的影響', link: 'https://nicktsai88.github.io/Nature3-5-4' },
+                            { text: '5-5 熱的傳播方式', link: 'https://nicktsai88.github.io/Nature3-5-5' },
+                            { text: '6-1 元素與化合物', link: 'https://nicktsai88.github.io/Nature3-6-1' },
+                            { text: '6-2 生活中常見的元素', link: 'https://nicktsai88.github.io/Nature3-6-2' },
+                            { text: '6-3 原子結構', link: 'https://nicktsai88.github.io/Nature3-6-3' },
+                            { text: '6-4 週期表', link: 'https://nicktsai88.github.io/Nature3-6-4' },
+                            { text: '6-5 分子與化學式', link: 'https://nicktsai88.github.io/Nature3-6-5' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        isLongList: true,
+                        items: [
+                            { text: '1-1 常見的化學反應', link: 'https://nicktsai88.github.io/Nature4-1-1'},
+                            { text: '1-2 質量守恆定律', link: 'https://nicktsai88.github.io/Nature4-1-2'},
+                            { text: '1-3 反應式與化學計量', link: 'https://nicktsai88.github.io/Nature4-1-3'},
+                            { text: '2-1 氧化反應與活性', link: 'https://nicktsai88.github.io/Nature4-2-1'},
+                            { text: '2-2 氧化與還原', link: 'https://nicktsai88.github.io/Nature4-2-2'},
+                            { text: '2-3 氧化還原的應用', link: 'https://nicktsai88.github.io/Nature4-2-3'},
+                            { text: '3-1 電解質', link: 'https://nicktsai88.github.io/Nature4-3-1'},
+                            { text: '3-2 酸和鹼', link: 'https://nicktsai88.github.io/Nature4-3-2'},
+                            { text: '3-3 酸鹼的強弱與pH質', link: 'https://nicktsai88.github.io/Nature4-3-3'},
+                            { text: '3-4 酸鹼反應', link: 'https://nicktsai88.github.io/Nature4-3-4' },
+                            { text: '4-1 反應速率', link: 'https://nicktsai88.github.io/Nature4-4-1' },
+                            { text: '4-2 可逆反應與平衡', link: 'https://nicktsai88.github.io/Nature4-4-2' }
+                        ]
+                    }
+                ]
+            },
+            // 12. 生物
+            {
+                subject: 'biology',
+                subjectName: '生物',
+                colorClass: 'bg-emerald-50',
+                borderClass: 'border-emerald-200',
+                tagColor: '#10b981',
+                categories: [
+                    {
+                        name: '生物學習區',
+                        items: [
+                            { text: '暫無練習內容', link: '' }
+                        ]
+                    }
+                ]
+            },
+            // 13. 地球科學
+            {
+                subject: 'earth-science',
+                subjectName: '地球科學',
+                colorClass: 'bg-cyan-50',
+                borderClass: 'border-cyan-200',
+                tagColor: '#06b6d4',
+                categories: [
+                    {
+                        name: '地科學習區',
+                        items: [
+                            { text: '暫無練習內容', link: '' }
+                        ]
+                    }
+                ]
+            },
+            // 14. 歷史
+            {
+                subject: 'history',
+                subjectName: '歷史',
+                colorClass: 'bg-orange-50',
+                borderClass: 'border-orange-200',
+                tagColor: '#ffb703',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 西力衝擊下的晚清變革', link: 'https://nicktsai88.github.io/History3-L5/' },
+                            { text: 'L6 晚清的社會文化變遷', link: 'https://nicktsai88.github.io/History3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 中華民國的早期發展', link: 'https://nicktsai88.github.io/History4-L1/' },
+                            { text: 'L2 舊傳統與新思潮', link: 'https://nicktsai88.github.io/History4-L2/' }
+                        ]
+                    }
+                ]
+            },
+            // 15. 地理
+            {
+                subject: 'geography',
+                subjectName: '地理',
+                colorClass: 'bg-green-50',
+                borderClass: 'border-green-200',
+                tagColor: '#a7c957',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L5 東北亞的自然環境', link: 'https://nicktsai88.github.io/Geography3-L5/' },
+                            { text: 'L6 東北亞的經濟發展', link: 'https://nicktsai88.github.io/Geography3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 東南亞', link: 'https://nicktsai88.github.io/Geography4-L1/' },
+                            { text: 'L2 南亞', link: 'https://nicktsai88.github.io/Geography4-L2/' }
+                        ]
+                    }
+                ]
+            },
+            // 16. 公民
+            {
+                subject: 'civics',
+                subjectName: '公民',
+                colorClass: 'bg-purple-50',
+                borderClass: 'border-purple-200',
+                tagColor: '#cdb4db',
+                categories: [
+                    {
+                        name: '第3冊',
+                        items: [
+                            { text: 'L4-2 我國中央政府各權力間如何互動', link: 'https://nicktsai88.github.io/Citizen3-L4/' },
+                            { text: 'L5 我國的地方政府', link: 'https://nicktsai88.github.io/Citizen3-L5/' },
+                            { text: 'L6 民主社會的政治參與及投票', link: 'https://nicktsai88.github.io/Citizen3-L6/' }
+                        ]
+                    },
+                    {
+                        name: '第4冊',
+                        items: [
+                            { text: 'L1 法律與人權', link: 'https://nicktsai88.github.io/Citizen4-L1/'},
+                            { text: 'L2 生活中的民事規範', link: 'https://nicktsai88.github.io/Citizen4-L1/' }
+                        ]
+                    }
+                ]
+            },
+            // 17. 備用1
+            {
+                subject: 'backup1',
+                subjectName: '備用1',
+                colorClass: 'bg-slate-50',
+                borderClass: 'border-slate-200',
+                tagColor: '#64748b',
+                categories: [
+                    {
+                        name: '備用區域 1',
+                        items: [
+                            { text: '待新增內容', link: '' }
+                        ]
+                    }
+                ]
+            },
+            // 18. 備用2
+            {
+                subject: 'backup2',
+                subjectName: '備用2',
+                colorClass: 'bg-gray-50',
+                borderClass: 'border-gray-200',
+                tagColor: '#6b7280',
+                categories: [
+                    {
+                        name: '備用區域 2',
+                        items: [
+                            { text: '待新增內容', link: '' }
+                        ]
+                    }
+                ]
+            },
+            // 19. 備用3
+            {
+                subject: 'backup3',
+                subjectName: '備用3',
+                colorClass: 'bg-zinc-50',
+                borderClass: 'border-zinc-200',
+                tagColor: '#71717a',
+                categories: [
+                    {
+                        name: '備用區域 3',
+                        items: [
+                            { text: '待新增內容', link: '' }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // 渲染函數
+        function renderContent(filterSubject = 'all', searchQuery = '') {
+            const container = document.getElementById('content-grid');
+            const noResults = document.getElementById('no-results');
+            container.innerHTML = '';
+            
+            let hasResults = false;
+
+            data.forEach(sub => {
+                // 篩選科目
+                if (filterSubject !== 'all' && sub.subject !== filterSubject) return;
+
+                // 建立該科目的內容
+                let categoriesHTML = '';
+                let matchCountInSubject = 0;
+
+                sub.categories.forEach(cat => {
+                    // 篩選內容（搜尋功能）
+                    const filteredItems = cat.items.filter(item => 
+                        item.text.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        cat.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+
+                    if (filteredItems.length > 0) {
+                        matchCountInSubject += filteredItems.length;
+                        const scrollClass = cat.isLongList ? 'max-h-64 overflow-y-auto custom-scroll pr-2' : '';
+                        
+                        const itemsHTML = filteredItems.map(item => {
+                            if (item.link && item.link.trim() !== '') {
+                                return `<a href="${item.link}" target="_blank" class="link-item has-link group flex items-start">
+                                            <span class="mr-2 transform group-hover:scale-110 transition-transform">🔗</span>
+                                            <span>${item.text}</span>
+                                        </a>`;
+                            } else {
+                                return `<div class="link-item flex items-start">
+                                            <span class="mr-2 text-gray-400">📝</span>
+                                            <span>${item.text}</span>
+                                        </div>`;
+                            }
+                        }).join('');
+
+                        categoriesHTML += `
+                            <div class="mb-6 last:mb-0">
+                                <h3 class="category-header text-lg">${cat.name}</h3>
+                                <div class="${scrollClass}">
+                                    ${itemsHTML}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                if (categoriesHTML !== '') {
+                    hasResults = true;
+                    const card = document.createElement('div');
+                    card.className = `hand-drawn-box ${sub.colorClass} p-6 relative`;
+                    card.innerHTML = `
+                        <div class="tape"></div>
+                        <div class="subject-tag" style="background-color: ${sub.tagColor}; border-radius: 4px;">${sub.subjectName}</div>
+                        <div class="mt-4">
+                            ${categoriesHTML}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+
+            if (!hasResults) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // 初始化
+        renderContent();
+
+        // 事件監聽 - 搜尋
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const activeBtn = document.querySelector('.filter-btn.active');
+            const subject = activeBtn ? activeBtn.dataset.subject : 'all';
+            renderContent(subject, e.target.value);
+        });
+
+        // 事件監聽 - 分類按鈕
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // 移除其他 active
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'ring-2', 'ring-offset-2', 'ring-gray-300');
+                    // 恢復原本背景
+                });
+                
+                // 加入 active
+                e.target.classList.add('active', 'ring-2', 'ring-offset-2', 'ring-gray-300');
+                
+                const subject = e.target.dataset.subject;
+                const searchQuery = document.getElementById('searchInput').value;
+                renderContent(subject, searchQuery);
+            });
+        });
+
+    </script>
+</body>
+</html>
