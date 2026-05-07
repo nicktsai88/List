@@ -87,6 +87,24 @@
         const App = () => {
             // 定義領域顏色主題，讓圖示更繽紛
             const subjects = [
+
+                {
+                    category: "會考專區",
+                    bgStyle: "bg-orange-50",
+                    borderStyle: "border-orange-200",
+                    headerIconBg: "bg-orange-100",
+                    titleColor: "text-orange-600",
+                    iconTheme: "bg-orange-400", 
+                    iconShadow: "shadow-orange-200",
+                    headerIcon: <Feather className="w-6 h-6 text-orange-500" />,
+                    links: [
+                        { name: "國文", url: "https://nicktsai88.github.io/Exam-Chinese/", icon: <BookOpen /> },
+                        { name: "英文", url: "https://nicktsai88.github.io/Exam-English/", icon: <Edit3 /> },
+                        { name: "數學", url: "https://nicktsai88.github.io/Exam-Math/", icon: <MessageCircle /> },
+                        { name: "自然", url: "https://nicktsai88.github.io/Exam-Natural/", icon: <Book /> },
+                        { name: "社會", url: "https://nicktsai88.github.io/Exam-Society/", icon: <PenTool /> },
+                    ]
+                },
                 {
                     category: "國文領域",
                     bgStyle: "bg-pink-50",
